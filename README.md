@@ -10,4 +10,3 @@ finding certain words or losing their flow of speech.
 Based on the input given our AI model will determine whether or not our patient has early onset Alzhimer's disease.
 
 
-"ALzhimers icons created by Victoruler-Flaticon"
