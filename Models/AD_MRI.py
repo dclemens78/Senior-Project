@@ -273,8 +273,39 @@ def duplicate_images(source_dir, target_dir, class_name, num_duplicates):
 
 
 # Display results
-def get_results(): 
-    ''' A method used to give the user a further understanding of their results via accuracy measures '''
+def test_single_image(model, image_path):
+    """ Function to test a single image with the trained model """
+    
+    # Preprocessing pipeline (should match the one used during training)
+    transform = transforms.Compose([
+        transforms.Resize((128, 128)),
+        transforms.Grayscale(num_output_channels=1),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5], std=[0.5])
+    ])
+    
+    # Load the image
+    image = Image.open(image_path).convert('L')  # Convert to grayscale
+    image = transform(image).unsqueeze(0)  # Add batch dimension
+    
+    # Ensure model is in evaluation mode
+    model.eval()
+
+    # Move model and image to the same device
+    image = image.to(DEVICE)
+    model = model.to(DEVICE)
+    
+    # Disable gradient computation for inference
+    with torch.no_grad():
+        output = model(image)
+        _, predicted = torch.max(output, 1)  # Get the index of the predicted class
+
+    # Define the class labels (modify these to match your actual classes)
+    classes = ["NonDemented", "VeryMildDemented", "MildDemented", "ModerateDemented"]
+    
+    # Output the prediction result
+    predicted_class = classes[predicted.item()]
+    print(f'The model predicts that this MRI image shows: {predicted_class}')
     
 
 if __name__ == "__main__": main(parser.parse_args())
