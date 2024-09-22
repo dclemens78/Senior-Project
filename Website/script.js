@@ -42,5 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('uploadbutton').addEventListener('click', function() {
         // Placeholder for future form/photo submission handling
         alert('Upload button clicked');
+        
     });
 });
