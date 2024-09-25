@@ -58,7 +58,6 @@ def main(args):
     
     train_cnn(model, train_loader, test_loader, criterion, optimizer, scheduler, args.epoch)
     
-    if input("Would you like to see results? (Y/N): ").lower() == 'y': get_results()
         
     if args.debug: pdb.set_trace()
 
