@@ -12,6 +12,7 @@ body{
     position: relative;
     font-family: sans-serif;
 }
+
 h1{
     padding-top: 10px;
     text-align: center;
@@ -35,6 +36,7 @@ h1{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 #drop{
     color: white;
     font-size: 15px;
@@ -88,18 +90,16 @@ h1{
 
 
 /* media Screen Sizes */
-@media screen and (min-width: 794px) {
+@media screen and (max-width: 48rem) {
     body{
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
     }
-}
 
-@media screen and (min-width: 1024px) {
-    body{
-        background-size: cover;
-        background-position: center 10%;
-        background-repeat: no-repeat;
+    
+    #uploadbutton{
+        justify-content: center;
     }
+    
 }
