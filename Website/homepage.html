@@ -17,33 +17,107 @@
 <body>
       <!-- header section that holds the image and title -->
       <section class="header">
+
+        <!-- image container -->
+        <div class="background-container"></div>
+        
+        <!-- navbar container -->
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#"> <img src="images/Format=Stroke, Weight=Bold.png" alt="Icon from figma"> Alzheimers Classifer</a>
+              <a class="navbar-brand" href="homepage.html"> <img src="images/Format=Stroke, Weight=Bold.png" alt="Icon from figma"> Alzheimers Classifer</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="homepage.html">Home</a>
+                    <a class="nav-link active px-3 mx-2" aria-current="page" href="homepage.html">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="Classifierpage.html">Image Classifer</a>
+                    <a class="nav-link nav-link active px-3 mx-2" href="Classifierpage.html">Image Classifer</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="AboutThecasue.html">About Alzheimer's</a>
+                    <a class="nav-link nav-link active px-3 mx-2" href="AboutThecasue.html">About Alzheimer's</a>
                   </li>
                 </ul>
               </div>
             </div>
           </nav>
 
-          <h1 class="text-start fw-bold">Welcome to the Alzheimers Image Classifier Website</h1>
+
+
+          <div class="text-box">
+            <h1>Welcome to the Alzheimers Image Classifier Website</h1>
+            <p class="lead">A website providing educational resources on Alzheimer's disease, along with an image classification section, <br> integrating both medical knowledge and machine learning techniques </p>
+          </div>
+          
             
       </section>
+      
+      <article class="bg-light my-5 pb-4">
+        <!-- Section title container -->
+        <div class="container-lg">
+          <div class="text-center py-4">
+            <h2>Latest Articles</h2>
+          </div>
+        </div>
+      
+        <!-- Card Container -->
+        <div class="container">
+          <div class="row my-3 g-3 justify-content-center">
+            <!-- Card 1 -->
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+              <div class="card border-0" style="width: 100%;">
+                <a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/alzheimers-disease/earlyonset-alzheimer-disease" class="card-link stretched-link"></a>
+                <img src="images/milad-fakurian-58Z17lnVS4U-unsplash.jpg" alt="" class="card-img-top">
+                <div class="card-body text-center py-4">
+                  <h4 class="card-title text-decoration-none">Article name here</h4>
+                  <p class="lead card-subtitle">could be a brief summary of the article</p>
+                </div>
+              </div>
+            </div>
 
-    
+      
+            <!-- Card 2 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+              <div class="card border-0 position-relative" style="width: 100%;">
+                <a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/alzheimers-disease/earlyonset-alzheimer-disease" class="card-link stretched-link"></a>
+                <img src="images/milad-fakurian-58Z17lnVS4U-unsplash.jpg" alt="" class="card-img-top">
+                <div class="card-body text-center py-4">
+                  <h4 class="card-title">Article name here</h4>
+                  <p class="lead card-subtitle">could be a brief summary of the article</p>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Card 3 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+              <div class="card border-0" style="width: 100%;">
+                <a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/alzheimers-disease/earlyonset-alzheimer-disease" class="card-link stretched-link"></a>
+                <img src="images/milad-fakurian-58Z17lnVS4U-unsplash.jpg" alt="" class="card-img-top">
+                <div class="card-body text-center py-4">
+                  <h4 class="card-title">Article name here</h4>
+                  <p class="lead card-subtitle">could be a brief summary of the article</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <section class="grid-container">
+         <article class="about">
+          <img src="images/alzhiemerstree.jpg" alt="https://codmansurgical.integralife.com/3-ways-normal-hydrocephalus-differs-from-alzheimers-disease/">
+          <div class="about-text-box">
+            <h3>About Our Project</h3>
+            <p>For this project we decieded to build an AI model with the task of early onset Alzheimer's disease detection.
+              Our AI model will take MRI images of brain scans and determine whether or not the patient is developing early onset
+              Alzheimer's. Based on the images given our AI model will determine whether or not our patient has early onset Alzhimer's disease.
+          </p>
+          </div>
+         </article>
+      </section>
 </body> 
 
 
