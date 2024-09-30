@@ -12,12 +12,36 @@ body{
     position: relative;
     font-family: sans-serif;
 }
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+.navbar-brand{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.navbar ul{
+    font-weight: 450;
+    font-size: 20px;
+}
+.navbar li{
+    margin-right: 10px;
+}
+
+.navbar li:hover{
+    border: 2px solid black;
+    border-radius: 2rem;
+    background-color: rgb(153, 148, 148);
+}
 
 h1{
-    padding-top: 10px;
-    text-align: center;
     font-size: 75px;
-    padding-bottom: 5px;
+    text-align: center;
 }
 
 .filedrop{

@@ -103,7 +103,6 @@ body{
     color: black;
 }
 
-
 /* Section 2 Cards */
 .card:hover{
     box-shadow: 0 0 20px 0px rgb(89, 1, 92);
@@ -115,7 +114,6 @@ body{
     gap: 60px;
     max-width: 1200px;
     margin: 0 auto;
-    
 }
 
 article.about{
@@ -134,15 +132,10 @@ article.about img {
     border: 2px solid rgb(89, 1, 92);
     border-radius: 8px;
 }
-  
-  article p, article h3 {
+
+article p, article h3 {
     margin: 20px 10px;
 }
-
-
-
-
-
 
 
 /* Media Queries for smaller screens */
@@ -180,7 +173,7 @@ article.about img {
         gap: 60px;
         align-items: center;
     
-      }
+    }
 }
 
 @media (max-width: 750px) {
