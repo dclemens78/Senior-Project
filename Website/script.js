@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
+            selectedFile = file;
             
             reader.onload = function(e) {
                 const imagePreview = document.getElementById('imagePreview');
@@ -40,6 +41,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle upload button click (placeholder)
     document.getElementById('uploadbutton').addEventListener('click', function() {
+        if (selectedFile){
+            const formData = new FormData();
+            formData.addend('file', selectedFile);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('File Uploaded successfully');
+            })
+            .catch(error => {
+                console.error('Error uploading file', error);
+                alert("Error uploading file.");
+            });
+        } else{
+            alert("No file selected.");
+        }
         // Placeholder for future form/photo submission handling
         alert('Upload button clicked');
         
