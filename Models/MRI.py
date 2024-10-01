@@ -40,8 +40,9 @@ def main():
 
 
 def load_images():
-    ''' Load transformed images for training and load the validation and testing data '''
-    
+        
+    ''' A method load training, testing, and validation images in order to transform them '''
+        
     # Augment the training the data in order to better train the classifier
     train_transform = v2.Compose([
     v2.Resize([224, 224], antialias=True),   
@@ -76,12 +77,12 @@ def load_images():
     val_dataset.dataset.transform = val_test_transform
     
     # Create data loaders for train, validation, and test sets
-    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
     
     # Load test data using test transformations
     test_dataset = ImageFolder(root=TEST, transform=val_test_transform)
-    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
     return train_loader, val_loader, test_loader
 
@@ -101,7 +102,7 @@ def build_model():
     return model
 
 
-def train(model, train_loader, val_loader, num_epochs=1000, learning_rate=0.001, patience=10):
+def train(model, train_loader, val_loader, num_epochs=1000, learning_rate=0.001, patience=15):
     
     criterion = nn.CrossEntropyLoss(weight=weights)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
