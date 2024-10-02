@@ -62,6 +62,7 @@ def main(args):
     if args.debug: pdb.set_trace()
 
 
+
 def create_network():
     
     class CNN(nn.Module):

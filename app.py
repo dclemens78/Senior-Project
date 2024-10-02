@@ -1,62 +1,55 @@
-from flask import Flask, request, jsonify, render_template
-import os
-from werkzeug.utils import secure_filename
-from Models.AD_MRI import create_network, test_single_image  # Import your model functions
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+from PIL import Image
 import torch
+from torchvision import transforms
+import io
+from Models.MRI import build_model  # Import your model-building function
+import os
 
-# Initialize Flask app
-app = Flask(__name__)
+app = FastAPI()
 
-# Configure the upload folder
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')  # Path to the 'uploads' directory
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  # Use uppercase 'UPLOAD_FOLDER' as Flask convention
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load your trained model
-model, criterion, optimizer, scheduler = create_network()
-model.load_state_dict(torch.load('model.pth', map_location=torch.device('cpu')))  # Load model
-model.eval()  # Set model to evaluation mode
+model = build_model()
+model.load_state_dict(torch.load(os.path.join('Models', 'best_model.pth'), map_location=DEVICE))
+model = model.to(DEVICE)
+model.eval()
 
-# Ensure the upload folder exists
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+# Define the image transformations (same as in your training)
+transform = transforms.Compose([
+    transforms.Resize([224, 224]),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+])
 
-# Home route to render the upload form
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Endpoint for image upload and model inference
+@app.post("/predict")
+async def predict(file: UploadFile = File(...)):
+    try:
+        # Read the image file
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes))
 
-# Route to handle image upload and prediction
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    # Check if an image file is uploaded
-    if 'filepath' not in request.files:
-        return jsonify({'result': 'No file part'}), 400
+        # Transform the image for model input
+        image = transform(image).unsqueeze(0).to(DEVICE)
 
-    file = request.files['filepath']
+        # Run model prediction
+        with torch.no_grad():
+            output = model(image)
+            _, predicted = torch.max(output.data, 1)
 
-    # DEBUG: Log the uploaded file details
-    print(f"File uploaded: {file.filename}")
-    print(f"Upload folder: {app.config['UPLOAD_FOLDER']}")
+        # Map prediction to label
+        labels = ['Class 0', 'Class 1', 'Class 2', 'Class 3']  # Update with your class names
+        predicted_label = labels[predicted.item()]
 
-    # Save the uploaded file directly without checking for file extension
-    if file:
-        filename = secure_filename(file.filename)  # Secure the filename
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # File save path
+        return JSONResponse(content={"prediction": predicted_label})
 
-        try:
-            file.save(filepath)  # Save the file
-            print(f"File saved to: {filepath}")  # DEBUG: Log the saved file path
-        except Exception as e:
-            print(f"Error saving file: {e}")  # DEBUG: Log any errors during file saving
-            return jsonify({'result': f"File saving failed: {str(e)}"}), 500
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
-        # Process the image and make a prediction
-        result = test_single_image(model, filepath)
-
-        # Return the result as a JSON response
-        return jsonify({'result': result})
-
-    return jsonify({'result': 'Invalid file type'}), 400
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Start the app using Uvicorn
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
