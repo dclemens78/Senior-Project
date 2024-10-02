@@ -1,0 +1,197 @@
+/* Home Page Styles */
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow-x: hidden;
+}
+
+
+.header{
+    min-height: 100vh;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+.navbar-brand{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.navbar ul{
+    font-weight: 450;
+    font-size: 20px;
+}
+.navbar li{
+    margin-right: 10px;
+}
+
+.navbar li:hover{
+    border: 2px solid black;
+    border-radius: 2rem;
+    background-color: rgb(153, 148, 148);
+}
+
+.background-container {
+    position: absolute; /* Covers the entire header */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('images/Background3.jpg'); /* Ensure correct path */
+    background-position: center;
+    background-size: cover;
+    z-index: -1; /* Place behind the content */
+    height: 100%; /* Fills the height of the .header */
+    width: 100%; /* Ensures it fills the width of the .header */
+    transform-origin: bottom;
+    animation: header-image-animation linear forwards;
+    animation-timeline: view();
+    animation-range: exit;
+}
+
+@keyframes header-image-animation{
+    25% {opacity: 1;}
+    85%, 100% {opacity: 0; scale: 3;}
+}
+
+
+
+.text-box {
+    flex-grow: 1; /* Allow the text box to take available space */
+    display: flex; /* Use flex for centering */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text */
+    padding: 20px; /* Add some padding */
+    margin-top: -300px;
+    box-sizing: border-box; /* Prevent padding from affecting width */
+    animation: fade-out linear;
+    animation-timeline: view();
+    animation-range: exit -250px; 
+}
+
+@keyframes fade-out{
+    to {opacity: 0;}
+}
+
+.text-box h1{
+    font-size: 50px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.text-box p {
+    font-size: 18px;
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.card-link{
+    text-decoration: none;
+    color: black;
+}
+
+/* Section 2 Cards */
+.card:hover{
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+}
+
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+article.about{
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    align-items: center;
+    border-bottom: 1px solid #bbc7c7;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+article.about img {
+    width: 100%;
+    border: 2px solid rgb(89, 1, 92);
+    border-radius: 8px;
+}
+
+article p, article h3 {
+    margin: 20px 10px;
+}
+
+
+/* Media Queries for smaller screens */
+@media (max-width: 1590px) {
+    .text-box {
+        width: 90%;
+    }
+
+    .text-box h1 {
+        font-size: 45px;
+    }
+
+    .text-box p {
+        font-size: 16px;
+    }
+
+}
+
+@media (max-width: 1024px) {
+    .text-box {
+        width: 95%;
+    }
+
+    .text-box h1 {
+        font-size: 40px;
+    }
+
+    .text-box p {
+        font-size: 14px;
+    }
+    article.about{
+        grid-column: span 3;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+        align-items: center;
+    
+    }
+}
+
+@media (max-width: 750px) {
+    .text-box {
+        width: 100%; /* Take full width but add padding */
+        padding: 15px;
+    }
+
+    .text-box h1 {
+        font-size: 30px;
+    }
+
+    .text-box p {
+        font-size: 12px;
+    }
+
+    article.about{
+        display: block;
+        margin: 0 20px;
+    }
+}

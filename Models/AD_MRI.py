@@ -57,7 +57,6 @@ def main(args):
     model, criterion, optimizer, scheduler = create_network()
     
     train_cnn(model, train_loader, test_loader, criterion, optimizer, scheduler, args.epoch)
-    
         
     if args.debug: pdb.set_trace()
 
