@@ -6,6 +6,7 @@
 
 
 import os
+<<<<<<< HEAD
 from efficientnet_pytorch import EfficientNet
 from torchvision.transforms import v2
 from torchvision.datasets import ImageFolder
@@ -203,3 +204,13 @@ def test(model, test_loader):
 
 if __name__ == '__main__':
     main()
+=======
+
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+TRAIN = os.path.join(ROOT, 'Data', 'train')
+
+def main():
+    pass
+
+>>>>>>> faf5c9334d7c432273d7eb78abf6bd82f3a6492f

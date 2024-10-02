@@ -1,0 +1,129 @@
+/* Style.css*/
+
+body{
+    /* Photo by <a href="https://unsplash.com/@fakurian?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Milad Fakurian</a> on <a href="https://unsplash.com/photos/blue-and-green-peacock-feather-58Z17lnVS4U?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+   */
+    background-image: url("images/milad-fakurian-58Z17lnVS4U-unsplash.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 0;
+    height: 100vh;
+    position: relative;
+    font-family: sans-serif;
+}
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+.navbar-brand{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.navbar ul{
+    font-weight: 450;
+    font-size: 20px;
+}
+.navbar li{
+    margin-right: 10px;
+}
+
+.navbar li:hover{
+    border: 2px solid black;
+    border-radius: 2rem;
+    background-color: rgb(153, 148, 148);
+}
+
+h1{
+    font-size: 75px;
+    text-align: center;
+}
+
+.filedrop{
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);;
+    border: 3px solid #000;
+    border-radius: 6px;
+    margin: auto;
+    width: 45%;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#drop{
+    color: white;
+    font-size: 15px;
+}
+
+#upload{ 
+    font-size: 15px;
+    border-radius: 4px;
+    padding-top: 5px;  
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.filedrop label{
+    font-size: 25px;
+    padding: 10px;
+    color: white;
+}
+
+/* Image formatting for main page*/
+.upload-container{
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);;
+    border: 3px solid #000;
+    border-radius: 6px;
+    margin: auto;
+    width: 45%;
+    padding: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.upload-container.show{
+    display: flex;
+}
+.upload-container p,
+.upload-container h2{
+    text-align: left;
+    padding: 10px;
+    color: white;
+    size: 15px;
+    align-items: top;
+    text-transform: capitalize;
+}
+
+
+
+/* media Screen Sizes */
+@media screen and (max-width: 48rem) {
+    body{
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    
+    #uploadbutton{
+        justify-content: center;
+    }
+    
+}
