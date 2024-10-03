@@ -1,4 +1,3 @@
-<<<<<<< HEAD:script.js
 document.getElementById('uploadbutton').addEventListener('click', function() {
     let form = document.getElementById('uploadForm');
     let formData = new FormData(form);
@@ -20,7 +19,6 @@ document.getElementById('uploadbutton').addEventListener('click', function() {
     .catch(error => {
         console.error('Error:', error);
         document.getElementById('resultText').innerText = 'An error occurred. Please try again.';
-=======
 document.addEventListener('DOMContentLoaded', function() {
     // Handle image file input
     document.getElementById('drop').addEventListener('change', function(event) {

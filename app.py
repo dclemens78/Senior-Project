@@ -6,7 +6,7 @@ from torchvision import transforms
 import io
 from Models.MRI import build_model  # Import your model-building function
 import os
-
+#hi
 app = FastAPI()
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
