@@ -11,13 +11,13 @@ app = FastAPI()
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Load your trained model
+# Load trained model
 model = build_model()
 model.load_state_dict(torch.load(os.path.join('Models', 'best_model.pth'), map_location=DEVICE))
 model = model.to(DEVICE)
 model.eval()
 
-# Define the image transformations (same as in your training)
+# Define the image transformations (same as in training)
 transform = transforms.Compose([
     transforms.Resize([224, 224]),
     transforms.ToTensor(),
@@ -41,7 +41,7 @@ async def predict(file: UploadFile = File(...)):
             _, predicted = torch.max(output.data, 1)
 
         # Map prediction to label
-        labels = ['Class 0', 'Class 1', 'Class 2', 'Class 3']  # Update with your class names
+        labels = ['Mild Impairment', 'Moderate Impairment', 'No Impairment', 'Very Mild Impairment']  # Update with your class names
         predicted_label = labels[predicted.item()]
 
         return JSONResponse(content={"prediction": predicted_label})
@@ -52,4 +52,4 @@ async def predict(file: UploadFile = File(...)):
 # Start the app using Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8001)
