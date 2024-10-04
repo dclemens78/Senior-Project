@@ -1,15 +1,24 @@
+# Adam Boulos
+#
+# app.py
+
+''' A program that connects our alzheimer's detection model with our website via fastapi '''
+
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from PIL import Image
 import torch
 from torchvision import transforms
 import io
-from Models.MRI import build_model  # Import your model-building function
+from Models.MRI import build_model  
 import os
-#hi
+import uvicorn
+
 app = FastAPI()
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(DEVICE)
 
 # Load trained model
 model = build_model()
@@ -51,5 +60,5 @@ async def predict(file: UploadFile = File(...)):
 
 # Start the app using Uvicorn
 if __name__ == "__main__":
-    import uvicorn
+    
     uvicorn.run(app, host="127.0.0.1", port=8001)

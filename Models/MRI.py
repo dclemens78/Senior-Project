@@ -160,7 +160,7 @@ def train(model, train_loader, val_loader, num_epochs=100, learning_rate=0.001, 
         if val_accuracy > best_val_accuracy:
             best_val_accuracy = val_accuracy
             epochs_without_improvement = 0
-            torch.save(model.state_dict(), 'best_model.pth')
+            torch.save(model.state_dict(), 'Models/best_model.pth')
         else:
             epochs_without_improvement += 1
         
