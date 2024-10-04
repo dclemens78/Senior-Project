@@ -207,7 +207,9 @@ def test(model, test_loader):
     accuracy = 100 * correct / total
     return accuracy
 
-
+# print more informative data
+# classification report
+# loss vs epoch
 
 if __name__ == '__main__':
     main()
