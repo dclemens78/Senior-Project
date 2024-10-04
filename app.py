@@ -38,8 +38,12 @@ transform = transforms.Compose([
 async def predict(file: UploadFile = File(...)):
     try:
         # Read the image file
-        image_bytes = await file.read()
+        image_bytes = await file.read()  # This should be the first operation
         image = Image.open(io.BytesIO(image_bytes))
+        
+        # Convert grayscale images to RGB
+        if image.mode != "RGB":
+            image = image.convert("RGB")
 
         # Transform the image for model input
         image = transform(image).unsqueeze(0).to(DEVICE)
@@ -57,6 +61,7 @@ async def predict(file: UploadFile = File(...)):
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
 
 # Start the app using Uvicorn
 if __name__ == "__main__":
