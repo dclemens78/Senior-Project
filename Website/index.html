@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/alzheimer.png" alt="Alzheimer icons created by Victoruler-Flaticon">
+    <link rel="stylesheet" href="style.css">
+    <title>Alzheimer's Classifier</title>
+</head>
+<body>
+    <h1>Alzheimer's Classifier</h1>
+
+    <!-- Form for uploading an image -->
+    <form id="uploadForm" enctype="multipart/form-data">
+        <div class="filedrop">
+            <label for="drop">Upload and Classify Image</label>
+            <input type="file" id="drop" name="filepath" accept="image/jpeg, image/png" required>
+            <input type="button" value="Upload" id="uploadbutton">
+        </div>
+    </form>
+
+    <!-- Display uploaded image and result -->
+    <div class="upload-container">
+        <div id="imagePreview" class="uploaded-image"></div>
+        <h2>Results:</h2>
+        <p id="resultText">No result yet.</p>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
+
