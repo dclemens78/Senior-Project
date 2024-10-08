@@ -12,6 +12,8 @@ body{
     background-size: cover;
     display: flex;
     flex-direction: column;
+    color: black;
+    font-weight: 500;
 }
 
 .navbar{

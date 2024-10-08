@@ -1,0 +1,11 @@
+/* Styles for about the cause page */
+
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow-x: hidden;
+}
+
+.img-container img{
+    width: 100%;
+
+}
