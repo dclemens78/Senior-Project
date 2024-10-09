@@ -84,6 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Placeholder for future form/photo submission handling
         alert('Upload button clicked');
         
->>>>>>> c50c3cc86301ab18b12473a5f30106b0c6832d4f:Website/script.js
+
     });
 });

@@ -7,7 +7,7 @@
 
 import os
 from efficientnet_pytorch import EfficientNet
-from torchvision.transforms import v2
+from torchvision.transforms import transforms
 from torchvision.datasets import ImageFolder
 import torch
 from torch import nn
@@ -41,26 +41,24 @@ def main():
 
 
 def load_images():
-    # Augment the training data in order to better train the classifier
-    train_transform = v2.Compose([
-        v2.RandomResizedCrop([224, 224], scale=(0.8, 1.0), ratio=(0.75, 1.33), antialias=True),   
-        v2.RandomHorizontalFlip(),
-        v2.RandomVerticalFlip(),
-        v2.RandomRotation(degrees=30), 
-        v2.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1),
-        v2.ToImage(),  # Converts image to tensor (v2 equivalent of ToTensor)
-        v2.ToDtype(torch.float, scale=True),  # Ensures the tensor is float32
-        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    # Augmentations for training data: suitable for MRI data
+    train_transform = transforms.Compose([
+        transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),  # Keep aspect ratio 1:1 for MRI
+        transforms.RandomHorizontalFlip(),  # Horizontal flip for augmenting the dataset
+        transforms.RandomVerticalFlip(),  # Vertical flip, potentially useful for MRI
+        transforms.RandomRotation(degrees=15),  # Small rotations for data variability
+        transforms.ToTensor(),  # Convert image to tensor
+        transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize for grayscale images
     ])
 
-    val_test_transform = v2.Compose([
-        v2.Resize([224, 224], antialias=True),
-        v2.ToImage(),  # Converts image to tensor (v2 equivalent of ToTensor)
-        v2.ToDtype(torch.float, scale=True),  # Ensures the tensor is float32
-        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    # Validation/Test transformations: no augmentations, only resize and normalize
+    val_test_transform = transforms.Compose([
+        transforms.Resize((224, 224)),  # Resize to the same size as training
+        transforms.ToTensor(),  # Convert image to tensor
+        transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize for grayscale images
     ])
 
-    # Load the full training dataset without any transformations
+    # Load the full training dataset without any transformations initially
     full_train_dataset = ImageFolder(root=TRAIN)
     dataset_size = len(full_train_dataset)
 
