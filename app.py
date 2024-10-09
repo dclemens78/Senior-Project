@@ -54,7 +54,7 @@ async def predict(file: UploadFile = File(...)):
             _, predicted = torch.max(output.data, 1)
 
         # Map prediction to label
-        labels = ['Mild Impairment', 'Moderate Impairment', 'No Impairment', 'Very Mild Impairment']  # Update with your class names
+        labels = ['Mild Impairment', 'Moderate Impairment', 'No Impairment', 'Very Mild Impairment']
         predicted_label = labels[predicted.item()]
 
         return JSONResponse(content={"prediction": predicted_label})

@@ -12,6 +12,8 @@ body{
     background-size: cover;
     display: flex;
     flex-direction: column;
+    color: black;
+    font-weight: 500;
 }
 
 .navbar{
@@ -98,6 +100,10 @@ body{
     overflow-wrap: break-word;
 }
 
+.card{
+    transition: trasnform 0.2s;
+}
+
 .card-link{
     text-decoration: none;
     color: black;
@@ -106,6 +112,10 @@ body{
 /* Section 2 Cards */
 .card:hover{
     box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    transform: scale(1.05)
+}
+.scroll-container {
+    overflow-x: auto; /* Allows horizontal scrolling */
 }
 
 .grid-container{

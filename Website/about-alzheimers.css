@@ -1,0 +1,35 @@
+/* Styles for about the cause page */
+
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow-x: hidden;
+}
+
+.img-container img{
+    width: 100%;
+}
+
+.card{
+    transition: trasnform 0.2s;
+}
+
+.card-link{
+    text-decoration: none;
+    color: black;
+}
+
+/* Section 2 Cards */
+.card:hover{
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    transform: scale(1.05)
+}
+.scroll-container {
+    overflow-x: auto; /* Allows horizontal scrolling */
+}
+
+
+@media (max-width: 768px) {
+    .card {
+      min-height: 300px; /* Adjust height for smaller screens */
+    }
+}

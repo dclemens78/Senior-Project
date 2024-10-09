@@ -10,7 +10,7 @@ body{
     margin: 0;
     height: 100vh;
     position: relative;
-    font-family: sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .navbar{
     position: fixed;
