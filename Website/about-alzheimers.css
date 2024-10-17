@@ -31,13 +31,16 @@ body{
 }
 .What-is-alzheimer {
     color: white;
-    margin-top: 85px;
+    margin-top: 70px;
     position: relative;
     padding: 35px;
     text-align: center;
     height: 300px; /* Set a fixed height for the banner */
     overflow: hidden; /* Ensure content is clipped */
     box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    display: flex; /* Use flexbox for better alignment */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
 } 
 
 .background {
@@ -87,7 +90,6 @@ h1,p{
 
 .symptoms{
     line-height: 1.5rem;
-
 }
 
 .accordion-item {
@@ -192,4 +194,16 @@ article p, article h3 {
         width: 100%; /* Ensure items take full width */
     }
 
+    .What-is-alzheimer {
+        height: auto; /* Allow height to adjust for smaller screens */
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .What-is-alzheimer h1 {
+        font-size: 40px; /* Adjust font size for smaller screens */
+    }
+
+    .What-is-alzheimer p {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
 }
