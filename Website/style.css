@@ -42,7 +42,10 @@ h1{
     text-align: center;
     height: 300px; /* Set a fixed height for the banner */
     overflow: hidden; /* Ensure content is clipped */
-    box-shadow: 0 0 10px 0px rgb(89, 1, 92);
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    display: flex; /* Use flexbox for better alignment */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
 }
 
 .background {
@@ -56,12 +59,12 @@ h1{
     filter: blur(2px); /* Apply blur effect */
     z-index: 0; /* Send it to the back */
     overflow: hidden;
+
 }
 
 .header h1, h5 {
     position: relative; /* Ensure text is above the blurred background */
     z-index: 1; /* Bring text above the background */
-    overflow: hidden;
 }
 
 
@@ -167,13 +170,36 @@ p{
 
 
 
+@media (max-width: 1030px) {
+    .header {
+        height: auto; /* Allow height to adjust for smaller screens */
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .header h1 {
+        font-size: 40px; /* Adjust font size for smaller screens */
+    }
+
+    .header p {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
+}
 
 
 
 
+@media (max-width: 768px) {
 
+    .header {
+        height: auto; /* Allow height to adjust for smaller screens */
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
 
-/* media Screen Sizes */
-@media screen and (max-width: 48rem) {
+    .header h1 {
+        font-size: 40px; /* Adjust font size for smaller screens */
+    }
 
+    .header p {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
 }
