@@ -34,6 +34,38 @@ h1{
     font-size: 75px;
 }
 
+.header {
+    color: white;
+    margin-top: 70px;
+    position: relative;
+    padding: 35px;
+    text-align: center;
+    height: 300px; /* Set a fixed height for the banner */
+    overflow: hidden; /* Ensure content is clipped */
+    box-shadow: 0 0 10px 0px rgb(89, 1, 92);
+}
+
+.background {
+    position: absolute; /* Position it absolutely within .header */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(images/Banner.png);
+    background-size: cover; /* Maintain cover size */
+    filter: blur(2px); /* Apply blur effect */
+    z-index: 0; /* Send it to the back */
+    overflow: hidden;
+}
+
+.header h1, h5 {
+    position: relative; /* Ensure text is above the blurred background */
+    z-index: 1; /* Bring text above the background */
+    overflow: hidden;
+}
+
+
+
 .filedrop{
     display: flex;
     background-color: rgba(0, 0, 0, 0.1);;
@@ -44,7 +76,7 @@ h1{
     justify-content: space-around;
     flex-wrap: wrap;
     position: absolute;
-    top: 45%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -105,7 +137,7 @@ input[type="file"] {
     width: 75%;
     padding: 10px;
     position: absolute;
-    top: 70%;
+    top: 85%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none; /* Adjust based on visibility logic */
