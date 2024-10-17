@@ -79,7 +79,7 @@ h1{
     justify-content: space-around;
     flex-wrap: wrap;
     position: absolute;
-    top: 60%;
+    top: 57%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -140,7 +140,7 @@ input[type="file"] {
     width: 75%;
     padding: 10px;
     position: absolute;
-    top: 85%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none; /* Adjust based on visibility logic */

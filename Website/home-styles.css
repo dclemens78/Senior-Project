@@ -18,6 +18,7 @@ body{
     margin-right: 100px;
 }
 
+
 .navbar ul{
     font-weight: 450;
     font-size: 20px;
@@ -37,7 +38,7 @@ body{
     flex-direction: column;
     color: black;
     font-weight: 500;
-
+    margin-top: 85px;
 }
 .text-box{
     flex-grow: 1; /* Allow the text box to take available space */
