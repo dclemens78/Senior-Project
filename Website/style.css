@@ -1,16 +1,11 @@
 /* Style.css*/
 
-body{
     /* Photo by <a href="https://unsplash.com/@fakurian?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Milad Fakurian</a> on <a href="https://unsplash.com/photos/blue-and-green-peacock-feather-58Z17lnVS4U?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
    */
-    background-image: url("images/milad-fakurian-58Z17lnVS4U-unsplash.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    margin: 0;
-    height: 100vh;
-    position: relative;
+
+body{
     font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #EDEDF4;
 }
 .navbar{
     position: fixed;
@@ -18,42 +13,35 @@ body{
     width: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    backdrop-filter: blur(5px);
+    background-color: #EDEDF4;
 }
 .navbar-brand{
     font-size: 24px;
     font-weight: 500;
+    margin-right: 100px;
 }
 
 .navbar ul{
     font-weight: 450;
     font-size: 20px;
 }
-.navbar li{
-    margin-right: 10px;
-}
 
 .navbar li:hover{
-    border: 2px solid black;
-    border-radius: 2rem;
-    background-color: rgb(153, 148, 148);
+    border-bottom: 2px solid black;
 }
 
 h1{
     font-size: 75px;
-    text-align: center;
 }
 
 .filedrop{
     display: flex;
-    background-color: rgba(0, 0, 0, 0.5);;
-    border: 3px solid #000;
+    background-color: rgba(0, 0, 0, 0.1);;
+    border: 1px solid #000;
     border-radius: 6px;
-    margin: auto;
-    width: 45%;
+    width: 75%;
     padding: 10px;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     position: absolute;
     top: 45%;
@@ -61,69 +49,99 @@ h1{
     transform: translate(-50%, -50%);
 }
 
-#drop{
-    color: white;
-    font-size: 15px;
+
+.filedrop label{
+    font-size: 20px;
+    padding: 10px;
+    color: black;
 }
 
-#upload{ 
-    font-size: 15px;
-    border-radius: 4px;
-    padding-top: 5px;  
-    padding-bottom: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
+/* Styles for the file path button */
+.file-path-button {
+    border: 1px dashed black;
+    border-radius: 5px;
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
 }
-.filedrop label{
-    font-size: 25px;
-    padding: 10px;
-    color: white;
+
+.file-path-button:hover {
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    transform: translateY(-2px); /* Lift effect on hover */
 }
+.file-path-button:active {
+    transform: translateY(0); /* Reset on click */
+}
+
+/* Hide the default file input */
+input[type="file"] {
+    display: none; /* Hides the file input */
+}
+
+
+
+#uploadbutton{
+    font-size: 20px;
+    background-color: transparent;
+    border: 1px dashed black;
+    border-radius: 5px;
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+}
+
+#uploadbutton:hover {
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+#uploadbutton:active {
+    transform: translateY(0); /* Reset on click */
+}
+
 
 /* Image formatting for main page*/
-.upload-container{
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.5);;
-    border: 3px solid #000;
+.upload-container {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid #000;
     border-radius: 6px;
-    margin: auto;
-    width: 45%;
+    width: 75%;
     padding: 10px;
-    align-items: center;
-    flex-wrap: wrap;
     position: absolute;
     top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: none;
+    display: none; /* Adjust based on visibility logic */
 }
 
-.upload-container.show{
-    display: flex;
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;
 }
-.upload-container p,
-.upload-container h2{
-    text-align: left;
-    padding: 10px;
-    color: white;
-    size: 15px;
-    align-items: top;
-    text-transform: capitalize;
+.container{
+    grid-column: span 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    padding-bottom: 40px;
+    padding-top: 40px;
+    text-wrap: nowrap;
 }
+p{
+    font-size: 25px;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
 /* media Screen Sizes */
 @media screen and (max-width: 48rem) {
-    body{
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-    }
 
-    
-    #uploadbutton{
-        justify-content: center;
-    }
-    
 }
