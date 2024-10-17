@@ -14,100 +14,129 @@
 
 
 <!-- Body start -->
-<body class="bg-light">
+<body>
   <section class="header">
       <!-- navbar container -->
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="homepage.html"> <img src="images/Format=Stroke, Weight=Bold.png" alt="Icon from figma"> Alzheimers Classifer</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active px-3 mx-2" href="homepage.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link active px-3 mx-2" href="Classifierpage.html">Image Classifer</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link active px-3 mx-2" aria-current="page" href="AboutThecasue.html">About Alzheimer's</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="homepage.html">
+            <img src="images/Format=Stroke, Weight=Bold.png" alt="Icon from figma"> Alzheimers Classifer
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto ms-5"> <!-- Added ms-3 for extra left margin -->
+              <li class="nav-item">
+                <a class="nav-link active px-5 mx-2" aria-current="page" href="homepage.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active px-5 mx-2" href="Classifierpage.html">Image Classifer</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active px-5 mx-2" href="AboutThecasue.html">About Alzheimer's</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
   </section>
 
-  
 
 
-
-
+  <!-- WHAT IS ALZHEIMERS -->
 
   <article class="What-is-alzheimer justify-content-center text-center">
     <h1>What is Alzheimer's?</h1>
-    <div class="row">
-      <p class="lead">Alzheimer's is a type of dementia that affects memory, thinking, and behavior. Symptoms eventually grow severe enough to interfere with daily tasks.</p>
-      <div class="col-4 bg-light mx-5 my-4">
-        <p>Alzheimer's is the most common cause of dementia, a general term for memory loss and other cognitive abilities serious enough to interfere with daily life. Alzheimer's disease accounts for 60-80% of dementia cases.</p>
-      </div>
-      <div class="row d-inline">
-        <div class="col-6 justify-content-center mx-5">
-          <div class="col-6 img-container mx-5">
-            <img src="images/—Pngtree—alzheimer's disease character illustration elderly_6689218.png" alt="png image from pngtree.com">
+    <p class="lead">Alzheimer's is a type of dementia that affects memory, thinking, and behavior. Symptoms eventually grow severe enough to interfere with daily tasks.</p>
+  </article>
+  
+        <!-- About Project section -->
+        <section class="grid-container my-2 py-2">
+          <article class="about">
+            <img src="images/—Pngtree—alzheimer's disease character illustration elderly_6689218.png" alt="png image from pngtree.com" class="img-fluid">
+            <div class="about-text-box">
+              <p><strong>Alzheimer's is not a normal part of aging.</strong> The greatest known risk factor is increasing age, and the majority of people with Alzheimer's are 65 and older. Alzheimer’s disease is considered to be younger-onset Alzheimer’s if it affects a person under 65. Younger-onset can also be referred to as early-onset Alzheimer’s. People with younger-onset Alzheimer’s can be in the early, middle or late stage of the disease.</p>
+              <p>Alzheimer's is the most common cause of dementia, a general term for memory loss and other cognitive abilities serious enough to interfere with daily life. Alzheimer's disease accounts for 60-80% of dementia cases.</p>
+            </div>
+          </article>
+        </section>
+        <hr class="mx-5">
+
+<!-- SYMPTOMS -->
+<article class="symptoms mt-5">
+  <h2 class="text-center">Symptoms and Diagnosis</h2>
+  <h5 class="text-center pt-2">Alzheimer's symptoms can vary, but here are the key stages of the disease and the corresponding signs:</h5>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12 col-md-10 col-sm-12"> <!-- Adjust column sizes as needed -->
+        <div class="accordion d-flex justify-content-center p-5" id="accordionPanelsStayOpenExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                Early (Mild) Stage Symptoms:
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                <ul>
+                  <li><strong>Memory Loss:</strong> Forgetting recent events, conversations, or names, especially things recently learned.</li>
+                  <li><strong>Difficulty with Problem Solving:</strong> Struggling to plan or solve simple problems, like following a recipe or managing bills.</li>
+                  <li><strong>Confusion with Time or Place:</strong> Losing track of dates, seasons, or the passage of time.</li>
+                  <li><strong>Difficulty in Familiar Tasks:</strong> Trouble performing daily tasks like driving to a familiar location or remembering the rules of a favorite game.</li>
+                  <li><strong>Misplacing Objects:</strong> Frequently misplacing things and having difficulty retracing steps to find them.</li>
+                  <li><strong>Mood and Personality Changes:</strong> Becoming confused, anxious, or easily upset, particularly in new environments.</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <p><strong>Alzheimer's is not a normal part of aging.</strong> The greatest known risk factor is increasing age, and the majority of people with Alzheimer's are 65 and older. Alzheimer’s disease is considered to be younger-onset Alzheimer’s if it affects a person under 65. Younger-onset can also be referred to as early-onset Alzheimer’s. People with younger-onset Alzheimer’s can be in the early, middle or late stage of the disease.
-          </p>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+              Middle (Moderate) Stage Symptoms:
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <ul>
+                  <li><strong>Memory Loss:</strong> Forgetting personal history, such as their address or phone number.</li>
+                  <li><strong>Difficulty with Language:</strong> Trouble finding the right words, following conversations, or repeating phrases.</li>
+                  <li><strong>Problems with Movement:</strong> Developing difficulties with coordination, such as trouble walking or sitting.</li>
+                  <li><strong>Behavioral Changes:</strong> Greater mood swings, agitation, aggression, or delusions (e.g., believing people are stealing from them).</li>
+                  <li><strong>Disorientation:</strong> Becoming lost in familiar places and needing help with dressing or bathing.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                Late (Severe) Stage Symptoms:
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <ul>
+                  <li><strong>Significant Memory Loss:</strong> Inability to recognize close family and friends.</li>
+                  <li><strong>Severe Communication Difficulties:</strong> Loss of the ability to speak coherently or respond to the environment.</li>
+                  <li><strong>Need for Full-Time Assistance:</strong> Requiring help with basic activities such as eating, walking, and toileting.</li>
+                  <li><strong>Physical Decline:</strong> Loss of mobility, difficulties swallowing, and susceptibility to infections like pneumonia.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <hr>
+  </div>
   </article>
+  
 
 
-  <article class="col-12 mx-5">
-    <h2 class="text-center">Symptoms and Diagnosis</h2>
-    <h5 class="text-center">Alzheimer's symptoms can vary, but here are the key stages of the disease and the corresponding signs:</h5>
-    <p>
-      
-      <ol class="p-0">
-        <li><h4>Early (Mild) Stage Symptoms:</h4>
-          <ul>
-            <li><strong>Memory Loss:</strong> Forgetting recent events, conversations, or names, especially things recently learned.</li>
-            <li><strong>Difficulty with Problem Solving:</strong> Struggling to plan or solve simple problems, like following a recipe or managing bills.</li>
-            <li><strong>Confusion with Time or Place:</strong> Losing track of dates, seasons, or the passage of time.</li>
-            <li><strong>Difficulty in Familiar Tasks:</strong> Trouble performing daily tasks like driving to a familiar location or remembering the rules of a favorite game.</li>
-            <li><strong>Misplacing Objects:</strong> Frequently misplacing things and having difficulty retracing steps to find them.</li>
-            <li><strong>Mood and Personality Changes:</strong> Becoming confused, anxious, or easily upset, particularly in new environments.</li>
-          </ul>
-        </li><br>
-
-        <li> <h4>Middle (Moderate) Stage Symptoms:</h4>
-
-        <ul>
-          <li><strong>Memory Loss:</strong> Forgetting personal history, such as their address or phone number.</li>
-          <li><strong>Difficulty with Language:</strong> Trouble finding the right words, following conversations, or repeating phrases.</li>
-          <li><strong>Problems with Movement:</strong> Developing difficulties with coordination, such as trouble walking or sitting.</li>
-          <li><strong>Behavioral Changes:</strong> Greater mood swings, agitation, aggression, or delusions (e.g., believing people are stealing from them).</li>
-          <li><strong>Disorientation:</strong> Becoming lost in familiar places and needing help with dressing or bathing.</li><br>
-        </ul>
-        </li>
-        <li> <h4>Late (Severe) Stage Symptoms:</h4>
-          <ul>
-            <li><strong>Significant Memory Loss:</strong> Inability to recognize close family and friends.</li>
-            <li><strong>Severe Communication Difficulties:</strong> Loss of the ability to speak coherently or respond to the environment.</li>
-            <li><Strong>Need for Full-Time Assistance:</strong> Requiring help with basic activities such as eating, walking, and toileting.</li>
-            <li><strong>Physical Decline:</strong> Loss of mobility, difficulties swallowing, and susceptibility to infections like pneumonia.</li>
-          </ul>
-          
-      </ol>
-    </p>
-
-  </article>
-
-
-  <article class="bg-light my-5 pb-5">
+  <!-- EDUCATIONAL RESOURCES -->
+  <article class="my-5 pb-5">
     <div class="container-lg">
       <div class="text-center py-4">
         <h2>Educational Resources</h2>
@@ -140,7 +169,7 @@
               </div>
             </div>
           </div>
-  
+
           <!-- Card 3 -->
           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card border-0 pb-3" style="width: 100%; min-height: 350px;">
@@ -152,68 +181,91 @@
               </div>
             </div>
           </div>
-  
         </div>
       </div>
+    </div>
+    <hr class="mx-5">
+  </article>
+
+
+
+  <!-- CARE GIVER CARDS -->
+  <article class="my-5 pb-5">
+    <div class="container-lg">
+      <div class="text-center py-4">
+        <h2>Caregiver Support</h2>
+        <h5>Caring for someone with Alzheimer's can be emotionally and physically exhausting. These resources are designed to provide caregivers with the support and tools they need.</h5>
+      </div>
+    </div>
+    <div class="scrolling-container pb-5">
+      <div class="container">
+        <div class="row my-3 g-3 justify-content-center">
+          <!-- Card 1 -->
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 pb-3" style="width: 100%; min-height: 350px;">
+              <a href="https://caregiverresourcecenter.com/" class="card-link stretched-link"></a>
+              <img src="images/CaregiverResourceCenter_logo_OptB_042321.jpg" alt="" class="card-img-top">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title text-decoration-none">Caregiver Resource Center</h4>
+                <p class="card-subtitle"> A comprehensive set of resources for caregivers, including tips on communication, daily care, and managing behavior changes.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 pb-3" style="width: 100%; min-height: 350px;">
+              <a href="https://www.caregiver.org" class="card-link stretched-link"></a>
+              <img src="images/fca-branding-design.jpg" alt="" class="card-img-top">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">Family Caregiver Alliance (FCA)</h4>
+                <p class="card-subtitle">Provides a wide range of services including caregiver support groups, education, and legal resources. Alzheimer’s Foundation of America Caregiver Support</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 pb-3" style="width: 100%; min-height: 350px;">
+              <a href="https://eldercare.acl.gov/Public/Index.aspx" class="card-link stretched-link"></a>
+              <img src="images/logo-eldercare-locator.jpg" alt="" class="card-img-top">
+              <div class="card-body text-center py-5 my-3">
+                <h4 class="card-title">Eldercare Locator</h4>
+                <p class="card-subtitle">Provides information on Alzheimer's research and health resources.</p>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="Toll-Free text-center pt-5">
+      <p class="lead">
+        Toll-Free Helpline: 866-232-8484
+      </p>
+      <h6>
+        Offers one-on-one support via phone, email, and live chat. Trained social workers provide guidance, information, and referrals.
+      </h6>
     </div>
   </article>
   
 
-<article>
-  <div class="mx-5">
-    <h2 class="text-center">Caregiver Support</h2>
-
-    <h5 class="text-center">Caring for someone with Alzheimer's can be emotionally and physically exhausting. These resources are designed to provide caregivers with the support and tools they need.</h5>
-    
-  
-    <h4>Alzheimer’s Association Caregiver Center</h4>
-    <br>
-    
-    
-    <p>Caregiver Resource Center</p>
-    <p>
-      A comprehensive set of resources for caregivers, including tips on communication, daily care, and managing behavior changes.
-      Family Caregiver Alliance (FCA)
-    </p>
-    <a href="https://www.caregiver.org">Family Caregiver Alliance</a>
-    
-    <p>
-      Provides a wide range of services including caregiver support groups, education, and legal resources.
-      Alzheimer’s Foundation of America Caregiver Support
-    </p>
-    
-    <p>
-      Toll-Free Helpline: 866-232-8484
-      Offers one-on-one support via phone, email, and live chat. Trained social workers provide guidance, information, and referrals.
-      National Caregiver Support Program
-    </p>
-  
-    
-    <a href="https://www.eldercare.acl.gov">Eldercare Locator</a>
-    <p>
-      Offers support services to family caregivers, including counseling, respite care, and training for managing dementia.
-    </p>
-
-  </div>
-</article>
 
 
 
 
-
-|-- Treatments and Research
+<!-- |-- Treatments and Research
 |-- Caregiving and Support
-|-- Living with Alzheimer's
+|-- Living with Alzheimer's -->
 
 
 
 
 
-  <footer class="bg-light">
+  <footer>
     <div class="container p-4">
+      <hr>
       <div class="row">
         <div class="col-lg-6 col-md-12 mb-4">
-          <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">footer content title</h5>
+          <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">Alzheimers Classifer</h5>
           <p>
             I do not know what information to put in this section of the footer.  
           </p>
@@ -222,16 +274,10 @@
           <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">links</h5>
           <ul class="list-unstyled mb-0">
             <li class="mb-1">
-              <a href="#!" >Link 1</a>
+              <a href="AboutThecasue.html">About Alzheimers</a>
             </li>
             <li class="mb-1">
-              <a href="#!">link 2</a>
-            </li>
-            <li class="mb-1">
-              <a href="#!">link 3</a>
-            </li>
-            <li>
-              <a href="#!">link 4</a>
+              <a href="Classifierpage.html">Image Classifer</a>
             </li>
           </ul>
         </div>
@@ -248,7 +294,7 @@
     <!-- Copyright -->
   </footer>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body> 
 
 

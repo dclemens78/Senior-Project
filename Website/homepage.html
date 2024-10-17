@@ -16,45 +16,63 @@
 <!-- Body start -->
 <body>
       <!-- header section that holds the image and title -->
-      <section class="header">
-
-        <!-- image container -->
-        <div class="background-container"></div>
-        
-        <!-- navbar container -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="homepage.html"> <img src="images/Format=Stroke, Weight=Bold.png" alt="Icon from figma"> Alzheimers Classifer</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active px-3 mx-2" aria-current="page" href="homepage.html">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link nav-link active px-3 mx-2" href="Classifierpage.html">Image Classifer</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link nav-link active px-3 mx-2" href="AboutThecasue.html">About Alzheimer's</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-
-          <div class="text-box">
-            <h1>Welcome to the Alzheimers Image Classifier Website</h1>
-            <p class="lead">A website providing educational resources on Alzheimer's disease, along with an image classification section, <br> integrating both medical knowledge and machine learning techniques </p>
+      <section class="header align-items-center">
+      <!-- navbar container -->
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="homepage.html">
+            <img src="images/Format=Stroke, Weight=Bold.png" alt="Icon from figma"> Alzheimers Classifer
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto ms-5"> <!-- Added ms-3 for extra left margin -->
+              <li class="nav-item">
+                <a class="nav-link active px-5 mx-2" aria-current="page" href="homepage.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active px-5 mx-2" href="Classifierpage.html">Image Classifer</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active px-5 mx-2" href="AboutThecasue.html">About Alzheimer's</a>
+              </li>
+            </ul>
           </div>
-          
-            
+        </div>
+      </nav>
+
+      <div class="text-box">
+        <div class="overlay blur-effect"></div>
+        <div class="text-overlay position-absolute top-45 start-50 translate-middle text-center">
+          <h1>Welcome to the Alzheimers Classifier</h1>
+          <p class="lead">A website providing educational resources on Alzheimer's disease, along with an image classification section, integrating both medical knowledge and machine learning techniques.</p>
+        </div>
+      </div>
       </section>
-      
-      <article class="bg-light my-5 pb-5">
+
+      <hr class="mx-5 my-5">
+
+      <!-- About Project section -->
+      <section class="grid-container my-5 py-5">
+        <article class="about">
+          <img src="images/alzhiemerstree.jpg" alt="https://codmansurgical.integralife.com/3-ways-normal-hydrocephalus-differs-from-alzheimers-disease/">
+          <div class="about-text-box">
+            <h3>About Our Project</h3>
+            <p class="lead">For this project we decieded to build an AI model with the task of early onset Alzheimer's disease detection.
+              Our AI model will take MRI images of brain scans and determine whether or not the patient is developing early onset
+              Alzheimer's. Based on the images given our AI model will determine whether or not our patient has early onset Alzhimer's disease.
+          </p>
+          </div>
+        </article>
+      </section>
+
+
+      <!-- ARTICLE SECTION -->
+      <article class="my-5 pb-5">
         <div class="container-lg">
-          <div class="text-center py-4">
+          <hr class="py-3">
+          <div class= "text-center py-4">
             <h2>Latest Articles</h2>
           </div>
         </div>
@@ -97,70 +115,50 @@
                   </div>
                 </div>
               </div>
-      
             </div>
           </div>
         </div>
+        <hr class="mx-5 my-5">
       </article>
 
-      <!-- About Project section -->
-      <section class="grid-container my-5 py-5">
-        <article class="about">
-          <img src="images/alzhiemerstree.jpg" alt="https://codmansurgical.integralife.com/3-ways-normal-hydrocephalus-differs-from-alzheimers-disease/">
-          <div class="about-text-box">
-            <h3>About Our Project</h3>
-            <p>For this project we decieded to build an AI model with the task of early onset Alzheimer's disease detection.
-              Our AI model will take MRI images of brain scans and determine whether or not the patient is developing early onset
-              Alzheimer's. Based on the images given our AI model will determine whether or not our patient has early onset Alzhimer's disease.
-          </p>
+
+
+    <!-- FOOTER -->
+      <footer>
+        <div class="container p-4">
+          <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4">
+              <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">Alzheimers Classifer</h5>
+              <p>
+                I do not know what information to put in this section of the footer.  
+              </p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+              <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">links</h5>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-1">
+                  <a href="AboutThecasue.html">About Alzheimers</a>
+                </li>
+                <li class="mb-1">
+                  <a href="Classifierpage.html">Image Classifer</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+              <h5 class="mb-1" style="letter-spacing: 2px;">Alzheimer's Association Hotline</h5>
+              <p class="lead">24/7 Helpline: 800.272.3900</p>
+            </div>
           </div>
-        </article>
-      </section>
-
-  <footer class="bg-light">
-  <div class="container p-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-4">
-        <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">footer content title</h5>
-        <p>
-          I do not know what information to put in this section of the footer.  
-        </p>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-4">
-        <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">links</h5>
-        <ul class="list-unstyled mb-0">
-          <li class="mb-1">
-            <a href="#!" >Link 1</a>
-          </li>
-          <li class="mb-1">
-            <a href="#!">link 2</a>
-          </li>
-          <li class="mb-1">
-            <a href="#!">link 3</a>
-          </li>
-          <li>
-            <a href="#!">link 4</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-4">
-        <h5 class="mb-1" style="letter-spacing: 2px;">Alzheimer's Association Hotline</h5>
-        <p class="lead">24/7 Helpline: 800.272.3900</p>
-      </div>
-    </div>
-  </div>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2020 Copyright:
-    <a class="text-dark" href="#">Adam Danny Devon</a>
-  </div>
-  <!-- Copyright -->
-</footer>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2020 Copyright:
+          <a class="text-dark" href="#">Adam Danny Devon</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
 
 
-
-
-
-
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body> 
 
