@@ -14,6 +14,7 @@ body{
     z-index: 1000;
     background-color: #EDEDF4;
 }
+
 .navbar-brand{
     font-size: 24px;
     font-weight: 500;
@@ -29,8 +30,36 @@ body{
     border-bottom: 2px solid black;
 }
 .What-is-alzheimer {
+    color: white;
     margin-top: 85px;
+    position: relative;
+    padding: 35px;
+    text-align: center;
+    height: 300px; /* Set a fixed height for the banner */
+    overflow: hidden; /* Ensure content is clipped */
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
 } 
+
+.background {
+    position: absolute; /* Position it absolutely within .header */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(images/Banner.png);
+    background-size: cover; /* Maintain cover size */
+    filter: blur(2px); /* Apply blur effect */
+    z-index: 0; /* Send it to the back */
+}
+
+.What-is-alzheimer h1,p {
+    position: relative; /* Ensure text is above the blurred background */
+    z-index: 1; /* Bring text above the background */
+}
+
+h1,p{
+    font-size: 75px;
+}
 
 .img-fluid {
     max-width: 100%; /* Ensures image doesn't exceed its container */
