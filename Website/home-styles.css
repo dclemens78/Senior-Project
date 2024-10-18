@@ -26,7 +26,7 @@ body{
 
 
 .navbar li:hover{
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
 }
 
 .header{
@@ -134,6 +134,10 @@ article p, article h3 {
         font-size: 16px;
     }
 
+}
+
+#articlesContainer {
+    display: block; /* Ensure it's displayed */
 }
 
 @media (max-width: 1024px) {
