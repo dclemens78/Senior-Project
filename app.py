@@ -2,11 +2,11 @@
 #
 # app.py
 
-''' A program that connects our alzheimer's detection model with our website via fastapi '''
-
+''' A program that connects our Alzheimer's detection model with our website via FastAPI '''
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
 from PIL import Image
 import torch
 from torchvision import transforms
@@ -17,6 +17,15 @@ import uvicorn
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],  # Your frontend's origin
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(DEVICE)
 
@@ -26,7 +35,7 @@ model.load_state_dict(torch.load(os.path.join('Models', 'best_model.pth'), map_l
 model = model.to(DEVICE)
 model.eval()
 
-# Define the image transformations (same as in training)
+# Define the image transformations
 transform = transforms.Compose([
     transforms.Resize([224, 224]),
     transforms.ToTensor(),
@@ -38,9 +47,9 @@ transform = transforms.Compose([
 async def predict(file: UploadFile = File(...)):
     try:
         # Read the image file
-        image_bytes = await file.read()  # This should be the first operation
+        image_bytes = await file.read()
         image = Image.open(io.BytesIO(image_bytes))
-        
+
         # Convert grayscale images to RGB
         if image.mode != "RGB":
             image = image.convert("RGB")
@@ -62,8 +71,6 @@ async def predict(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-
 # Start the app using Uvicorn
 if __name__ == "__main__":
-    
     uvicorn.run(app, host="127.0.0.1", port=8001)

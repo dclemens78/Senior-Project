@@ -1,0 +1,209 @@
+/* Styles for about the cause page */
+
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow-x: hidden;
+    background-color: #EDEDF4;
+}
+
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    background-color: #EDEDF4;
+}
+
+.navbar-brand{
+    font-size: 24px;
+    font-weight: 500;
+    margin-right: 100px;
+}
+
+.navbar ul{
+    font-weight: 450;
+    font-size: 20px;
+}
+
+.navbar li:hover{
+    border-bottom: 1px solid black;
+}
+.What-is-alzheimer {
+    color: white;
+    margin-top: 70px;
+    position: relative;
+    padding: 35px;
+    text-align: center;
+    height: 300px; /* Set a fixed height for the banner */
+    overflow: hidden; /* Ensure content is clipped */
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    display: flex; /* Use flexbox for better alignment */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
+} 
+
+.background {
+    position: absolute; /* Position it absolutely within .header */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(images/Banner.png);
+    background-size: cover; /* Maintain cover size */
+    filter: blur(2px); /* Apply blur effect */
+    z-index: 0; /* Send it to the back */
+}
+
+.What-is-alzheimer h1,p {
+    position: relative; /* Ensure text is above the blurred background */
+    z-index: 1; /* Bring text above the background */
+}
+
+h1,p{
+    font-size: 75px;
+}
+
+.img-fluid {
+    max-width: 100%; /* Ensures image doesn't exceed its container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+.card{
+    transition: trasnform 0.2s;
+}
+
+.card-link{
+    text-decoration: none;
+    color: black;
+}
+
+/* Section 2 Cards */
+.card:hover{
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    transform: scale(1.05)
+}
+.scroll-container {
+    overflow-x: auto; /* Allows horizontal scrolling */
+}
+
+.symptoms{
+    line-height: 1.5rem;
+}
+
+.accordion-item {
+    flex: 1; /* Allow items to grow equally */
+    overflow: hidden;
+}
+
+.accordion-button {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Align content evenly */
+    width: 100%; /* Make button full width */
+}
+.accordion-button:not(.collapsed) {
+    background-color: rgb(89, 1, 92); /* Background color when expanded */
+    color: #fff; /* Text color when expanded */
+}
+
+.accordion-header {
+    flex: 1; /* Allow headers to grow equally */
+}
+
+.accordion-button {
+    width: 100%; /* Ensure buttons take full width */
+}
+
+
+.accordion-body {
+    padding: 15px; /* Adjust padding as needed */
+}
+
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+article.about{
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    align-items: center;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+article.about img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+article p, article h3 {
+    margin: 20px 10px;
+    line-height: 1.8rem;
+    font-size: 20px;
+}
+
+@media (max-width: 1024px) {
+    .text-box {
+        width: 95%;
+    }
+
+    .text-box h1 {
+        font-size: 40px;
+    }
+
+    .text-box p {
+        font-size: 14px;
+    }
+    article.about{
+        grid-column: span 3;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+        align-items: center;
+    }
+
+    .accordion {
+        flex-direction: column; /* Stack vertically */
+    }
+
+    .accordion-item {
+        width: 100%; /* Ensure items take full width */
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+      min-height: 300px; /* Adjust height for smaller screens */
+    }
+    article.about{
+        display: block;
+        margin: 0 20px;
+    }
+    .accordion {
+        flex-direction: column; /* Stack vertically */
+    }
+
+    .accordion-item {
+        width: 100%; /* Ensure items take full width */
+    }
+
+    .What-is-alzheimer {
+        height: auto; /* Allow height to adjust for smaller screens */
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .What-is-alzheimer h1 {
+        font-size: 40px; /* Adjust font size for smaller screens */
+    }
+
+    .What-is-alzheimer p {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
+}
