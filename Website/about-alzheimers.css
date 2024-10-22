@@ -27,7 +27,7 @@ body{
 }
 
 .navbar li:hover{
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
 }
 .What-is-alzheimer {
     color: white;
@@ -58,11 +58,9 @@ body{
 .What-is-alzheimer h1,p {
     position: relative; /* Ensure text is above the blurred background */
     z-index: 1; /* Bring text above the background */
-}
-
-h1,p{
     font-size: 75px;
 }
+
 
 .img-fluid {
     max-width: 100%; /* Ensures image doesn't exceed its container */

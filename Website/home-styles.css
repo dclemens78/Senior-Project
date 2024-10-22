@@ -120,6 +120,7 @@ article p, article h3 {
 }
 
 
+
 /* Media Queries for smaller screens */
 @media (max-width: 1590px) {
     .text-box {
