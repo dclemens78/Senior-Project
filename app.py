@@ -5,7 +5,7 @@
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
 from PIL import Image
 import torch
 from torchvision import transforms
@@ -17,16 +17,15 @@ import uvicorn
 # Initialize FastAPI app
 app = FastAPI()
 
-# Enable CORS to allow frontend requests
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://127.0.0.1:5500"],  # Your frontend's origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Check device (GPU or CPU)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", DEVICE)
 
@@ -36,7 +35,7 @@ model.load_state_dict(torch.load(os.path.join('Models', 'best_model.pth'), map_l
 model = model.to(DEVICE)
 model.eval()  # Set the model to evaluation mode
 
-# Define the image transformations (same as in training)
+# Define the image transformations
 transform = transforms.Compose([
     transforms.Resize([224, 224]),  # Resize to match model input size
     transforms.ToTensor(),  # Convert image to tensor
@@ -48,10 +47,10 @@ transform = transforms.Compose([
 async def predict(file: UploadFile = File(...)):
     try:
         # Read the image file
-        image_bytes = await file.read()  
-        image = Image.open(io.BytesIO(image_bytes)) 
-        
-        # Convert grayscale images to RGB 
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes))
+
+        # Convert grayscale images to RGB
         if image.mode != "RGB":
             image = image.convert("RGB")
 
@@ -70,8 +69,8 @@ async def predict(file: UploadFile = File(...)):
         return JSONResponse(content={"prediction": predicted_label})  # Return the prediction as JSON
 
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500) 
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# Run the FastAPI app using Uvicorn
+# Start the app using Uvicorn
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8001)
