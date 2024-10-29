@@ -44,8 +44,8 @@ def load_images():
     # Augmentations for training data: suitable for MRI data
     train_transform = transforms.Compose([
         transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),  # Keep aspect ratio 1:1 for MRI
-        transforms.RandomHorizontalFlip(),  # Horizontal flip for augmenting the dataset
-        transforms.RandomVerticalFlip(),  # Vertical flip, potentially useful for MRI
+        #transforms.RandomHorizontalFlip(),  # Horizontal flip for augmenting the dataset
+        #transforms.RandomVerticalFlip(),  # Vertical flip, potentially useful for MRI
         transforms.RandomRotation(degrees=15),  # Small rotations for data variability
         transforms.ToTensor(),  # Convert image to tensor
         transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize for grayscale images
