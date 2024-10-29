@@ -1,17 +1,7 @@
 /* Home Page Styles */
 body{
     font-family: Georgia, 'Times New Roman', Times, serif;
-    overflow-x: hidden;
-}
-
-
-.header{
-    min-height: 100vh;
-    width: 100%;
-    background-position: center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
+    background-color: #EDEDF4;
 }
 
 .navbar{
@@ -20,82 +10,72 @@ body{
     width: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    backdrop-filter: blur(5px);
+    background-color: #EDEDF4;
 }
 .navbar-brand{
     font-size: 24px;
     font-weight: 500;
+    margin-right: 100px;
 }
+
 
 .navbar ul{
     font-weight: 450;
     font-size: 20px;
 }
-.navbar li{
-    margin-right: 10px;
-}
+
 
 .navbar li:hover{
-    border: 2px solid black;
-    border-radius: 2rem;
-    background-color: rgb(153, 148, 148);
+    border-bottom: 1px solid black;
 }
 
-.background-container {
-    position: absolute; /* Covers the entire header */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('images/Background3.jpg'); /* Ensure correct path */
+.header{
+    min-height: 100vh;
+    width: 100%;
     background-position: center;
     background-size: cover;
-    z-index: -1; /* Place behind the content */
-    height: 100%; /* Fills the height of the .header */
-    width: 100%; /* Ensures it fills the width of the .header */
-    transform-origin: bottom;
-    animation: header-image-animation linear forwards;
-    animation-timeline: view();
-    animation-range: exit;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-weight: 500;
+    margin-top: 85px;
 }
-
-@keyframes header-image-animation{
-    25% {opacity: 1;}
-    85%, 100% {opacity: 0; scale: 3;}
-}
-
-
-
-.text-box {
+.text-box{
     flex-grow: 1; /* Allow the text box to take available space */
     display: flex; /* Use flex for centering */
     flex-direction: column; /* Stack children vertically */
     justify-content: center; /* Center vertically */
     align-items: center; /* Center horizontally */
-    text-align: center; /* Center text */
-    padding: 20px; /* Add some padding */
-    margin-top: -300px;
-    box-sizing: border-box; /* Prevent padding from affecting width */
-    animation: fade-out linear;
-    animation-timeline: view();
-    animation-range: exit -250px; 
+    text-align: center; /* Center text */ 
+    position: relative;
+    background-image: url(images/pexels-tima-miroshnichenko-6010927.jpg);
+}
+.text-overlay {
+    color: white; /* Change this based on your image color for visibility */
 }
 
-@keyframes fade-out{
-    to {opacity: 0;}
+#title{
+    font-size: 75px;
+    text-wrap: nowrap;
 }
 
-.text-box h1{
-    font-size: 50px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.text-box p {
-    font-size: 18px;
+#subtitle{
+    font-size: 20px;
     font-weight: 500;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Use the same background as the parent */
+    filter: blur(5px); /* Apply blur only to this overlay */
+    z-index: 0; /* Place it behind the text */
+}
+
+.card{
+    transition: trasnform 0.2s;
 }
 
 .card-link{
@@ -106,6 +86,10 @@ body{
 /* Section 2 Cards */
 .card:hover{
     box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    transform: scale(1.05)
+}
+.scroll-container {
+    overflow-x: auto; /* Allows horizontal scrolling */
 }
 
 .grid-container{
@@ -122,14 +106,12 @@ article.about{
     grid-template-columns: repeat(2, 1fr);
     gap: 60px;
     align-items: center;
-    border-bottom: 1px solid #bbc7c7;
     padding-bottom: 40px;
     padding-top: 40px;
 }
 
 article.about img {
     width: 100%;
-    border: 2px solid rgb(89, 1, 92);
     border-radius: 8px;
 }
 
@@ -152,6 +134,10 @@ article p, article h3 {
         font-size: 16px;
     }
 
+}
+
+#articlesContainer {
+    display: block; /* Ensure it's displayed */
 }
 
 @media (max-width: 1024px) {
