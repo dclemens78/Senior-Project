@@ -1,6 +1,10 @@
 # Danny Clemens
 #
 # MRI.py
+# add classification report to validation
+# loss vs epoch
+# accuracy vs epoch
+# for training and validation
 
 ''' A model that classifies brain scans in order to detect alzheimers disease. The results will be outputted on the website '''
 
