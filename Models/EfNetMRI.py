@@ -1,6 +1,6 @@
 # Danny Clemens
 #
-# Metrics.py
+# EfNetMRI.py.py
 
 ''' A model that classifies brain scans in order to detect Alzheimer's disease. The results will be outputted on the website '''
 
