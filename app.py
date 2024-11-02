@@ -1,12 +1,12 @@
 # Adam Boulos
 # app.py
 
-''' A program that connects our Alzheimer's detection model with our website via FastAPI '''
+''' A model that classifies brain scans in order to detect Alzheimer's disease. The results will be outputted on the website '''
 
-from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
-from PIL import Image
+import os
+from efficientnet_pytorch import EfficientNet
+from torchvision.transforms import transforms
+from torchvision.datasets import ImageFolder
 import torch
 from torchvision import transforms
 import io
