@@ -10,7 +10,7 @@ from torchvision.datasets import ImageFolder
 import torch
 from torchvision import transforms
 import io
-from Models.MRI import build_model
+from Models.EfNetMRI import build_model
 import os
 import uvicorn
 
@@ -27,19 +27,19 @@ app.add_middleware(
 )
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print("Using device:", DEVICE)
+print(DEVICE)
 
 # Load trained model
 model = build_model()
 model.load_state_dict(torch.load(os.path.join('Models', 'best_model.pth'), map_location=DEVICE))
 model = model.to(DEVICE)
-model.eval()  # Set the model to evaluation mode
+model.eval()
 
 # Define the image transformations
 transform = transforms.Compose([
-    transforms.Resize([224, 224]),  # Resize to match model input size
-    transforms.ToTensor(),  # Convert image to tensor
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Normalize as per model training
+    transforms.Resize([224, 224]),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
 # Endpoint for image upload and model inference
@@ -55,18 +55,18 @@ async def predict(file: UploadFile = File(...)):
             image = image.convert("RGB")
 
         # Transform the image for model input
-        image = transform(image).unsqueeze(0).to(DEVICE)  # Add batch dimension and send to the correct device
+        image = transform(image).unsqueeze(0).to(DEVICE)
 
-        # Run the model prediction
+        # Run model prediction
         with torch.no_grad():
-            output = model(image)  # Get model output
-            _, predicted = torch.max(output.data, 1)  # Get the index of the max log-probability (class prediction)
+            output = model(image)
+            _, predicted = torch.max(output.data, 1)
 
-        # Map the predicted index to a label
+        # Map prediction to label
         labels = ['Mild Impairment', 'Moderate Impairment', 'No Impairment', 'Very Mild Impairment']
-        predicted_label = labels[predicted.item()]  # Convert index to corresponding label
+        predicted_label = labels[predicted.item()]
 
-        return JSONResponse(content={"prediction": predicted_label})  # Return the prediction as JSON
+        return JSONResponse(content={"prediction": predicted_label})
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
