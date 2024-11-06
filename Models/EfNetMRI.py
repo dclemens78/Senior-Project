@@ -48,6 +48,7 @@ def main():
     
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (9).jpg"))
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (16).jpg"))
+<<<<<<< HEAD
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (33).jpg"))
 #h
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "9 (2).jpg"))
@@ -62,6 +63,18 @@ def main():
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (10).jpg"))
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "2 (17).jpg"))
 
+=======
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (64).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "9 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "12.jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "17.jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (10).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (11).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (10).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (13).jpg"))
+>>>>>>> a62f35e087c9d75c15a8265c6baf849245213164
 
 def load_images():
     '''
@@ -316,11 +329,6 @@ def test_single_image(model, image_path):
     print("Class Probabilities:")
     for i, prob in enumerate(probabilities):
         print(f"{class_names[i]}: {prob:.2f}")
-    
-    # Optional: Visualize the image with prediction
-    plt.imshow(image)
-    plt.title(f"Predicted: {class_names[predicted_class]}")
-    plt.show()
     
 
 if __name__ == '__main__':
