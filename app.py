@@ -2,12 +2,16 @@
 # app.py
 
 ''' A model that classifies brain scans in order to detect Alzheimer's disease. The results will be outputted on the website '''
+import sys
 
-import os
-from efficientnet_pytorch import EfficientNet
-from torchvision.transforms import transforms
-from torchvision.datasets import ImageFolder
+from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from Models.EfNetMRI import build_model  # Import build_model from EfNetMRI
 import torch
+import os
+import io
+from PIL import Image
 from torchvision import transforms
 import io
 from Models.EfNetMRI import build_model
