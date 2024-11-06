@@ -125,6 +125,7 @@ def train(model, train_loader, val_loader, num_epochs=10, learning_rate=0.001, p
         total = 0
         
         for i, (inputs, labels) in enumerate(train_loader, start=1):
+            
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
             outputs = model(inputs)
