@@ -46,16 +46,18 @@ def main():
     sample_input, sample_target = next(iter(test_loader))
     generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
     
-    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "NoImpairment (5).jpg"))
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (9).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (16).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (64).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "9 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "12.jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "17.jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (10).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (11).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (10).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (13).jpg"))
 
 def load_images():
     '''
@@ -310,11 +312,6 @@ def test_single_image(model, image_path):
     print("Class Probabilities:")
     for i, prob in enumerate(probabilities):
         print(f"{class_names[i]}: {prob:.2f}")
-    
-    # Optional: Visualize the image with prediction
-    plt.imshow(image)
-    plt.title(f"Predicted: {class_names[predicted_class]}")
-    plt.show()
     
 
 if __name__ == '__main__':
