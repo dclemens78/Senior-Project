@@ -46,16 +46,22 @@ def main():
     sample_input, sample_target = next(iter(test_loader))
     generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
     
-    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "NoImpairment (5).jpg"))
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
-    test_single_image(model, "")
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (9).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (16).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (33).jpg"))
+#h
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "9 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "14.jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "18.jpg"))
+
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "1 (10).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Mild Impairment", "2 (17).jpg"))
+
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (2).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (10).jpg"))
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "2 (17).jpg"))
+
 
 def load_images():
     '''
