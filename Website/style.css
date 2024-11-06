@@ -166,11 +166,24 @@ p{
 
 
 
+/* For large screens */
+@media (max-width: 2000px) {
+    .navbar-nav {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
+}
 
+/* For medium-sized screens */
+@media (max-width: 1590px) {
+    .navbar .navbar-link{
+        text-wrap: nowrap;
+    }
+}
 
-
-
-@media (max-width: 1030px) {
+/* For tablet-sized screens */
+@media (max-width: 1024px) {
     .header {
         height: auto; /* Allow height to adjust for smaller screens */
         padding: 20px; /* Adjust padding for smaller screens */
@@ -186,10 +199,8 @@ p{
 }
 
 
-
-
-@media (max-width: 768px) {
-
+/* For mobile screens */
+@media (max-width: 750px) {
     .header {
         height: auto; /* Allow height to adjust for smaller screens */
         padding: 20px; /* Adjust padding for smaller screens */
@@ -201,5 +212,21 @@ p{
 
     .header p {
         font-size: 16px; /* Adjust font size for smaller screens */
+    }
+}
+
+/* For very small screens (like small smartphones) */
+@media (max-width: 480px) {
+    .header {
+        height: auto; /* Allow height to adjust for smaller screens */
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .header h1 {
+        font-size: 35px; /* Adjust font size for smaller screens */
+    }
+
+    .header p {
+        font-size: 12px; /* Adjust font size for smaller screens */
     }
 }

@@ -100,7 +100,7 @@ body{
     justify-content: space-between; /* Align content evenly */
     width: 100%; /* Make button full width */
 }
-.accordion-button:not(.collapsed) {
+.accordion-button:not(.collapsed){
     background-color: rgb(89, 1, 92); /* Background color when expanded */
     color: #fff; /* Text color when expanded */
 }
