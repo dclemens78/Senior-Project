@@ -1,203 +1,80 @@
-# Danny Clemens
-#
-# Metrics.py
+# Adam Boulos
+# app.py
 
 ''' A model that classifies brain scans in order to detect Alzheimer's disease. The results will be outputted on the website '''
+import sys
 
-import os
-from efficientnet_pytorch import EfficientNet
-from torchvision.transforms import transforms
-from torchvision.datasets import ImageFolder
+from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from Models.EfNetMRI import build_model  # Import build_model from EfNetMRI
 import torch
-from torch import nn
-import torch.optim as optim
-from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import CosineAnnealingLR
-from sklearn.metrics import classification_report, roc_auc_score
-from captum.attr import LayerGradCam
-import matplotlib.pyplot as plt
-import numpy as np
+import os
+import io
+from PIL import Image
+from torchvision import transforms
+import io
+from Models.EfNetMRI import build_model
+import os
+import uvicorn
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
+# Initialize FastAPI app
+app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],  # Your frontend's origin
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(DEVICE)
 
-def main():
-    train_loader, val_loader, test_loader = load_images()
+# Load trained model
+model = build_model()
+model.load_state_dict(torch.load(os.path.join('Models', 'best_model.pth'), map_location=DEVICE))
+model = model.to(DEVICE)
+model.eval()
 
-    model = build_model()
-    model = model.to(DEVICE)
+# Define the image transformations
+transform = transforms.Compose([
+    transforms.Resize([224, 224]),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+])
 
-    train(model, train_loader, val_loader, num_epochs=15)
-    
-    test_accuracy, test_report, test_auc = test(model, test_loader)
-    print(f"Final Test Accuracy: {test_accuracy:.2f}%")
-    print("Classification Report:\n", test_report)
-    if test_auc:
-        print(f"AUC Score: {test_auc:.2f}")
-    
-    # Generate a heatmap for a single sample (example usage)
-    sample_input, sample_target = next(iter(test_loader))
-    generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
+# Endpoint for image upload and model inference
+@app.post("/predict")
+async def predict(file: UploadFile = File(...)):
+    try:
+        # Read the image file
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes))
 
-def load_images():
-    # Enhanced Data Augmentation for Better Generalization
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
-        transforms.RandomRotation(degrees=20),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2),
-        transforms.RandomAffine(degrees=15, scale=(0.9, 1.1)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5], std=[0.5])
-    ])
-    val_test_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5], std=[0.5])
-    ])
-    full_train_dataset = ImageFolder(root=TRAIN)
-    dataset_size = len(full_train_dataset)
-    indices = np.arange(dataset_size)
-    np.random.shuffle(indices)
-    train_size = int(0.8 * dataset_size)
-    train_indices, val_indices = indices[:train_size], indices[train_size:]
-    train_dataset = torch.utils.data.Subset(full_train_dataset, train_indices)
-    val_dataset = torch.utils.data.Subset(full_train_dataset, val_indices)
-    train_dataset.dataset.transform = train_transform
-    val_dataset.dataset.transform = val_test_transform
-    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
-    test_dataset = ImageFolder(root=TEST, transform=val_test_transform)
-    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+        # Convert grayscale images to RGB
+        if image.mode != "RGB":
+            image = image.convert("RGB")
 
-    return train_loader, val_loader, test_loader
+        # Transform the image for model input
+        image = transform(image).unsqueeze(0).to(DEVICE)
 
-def build_model():
-    ''' Construct the pretrained Efficientnet-B0 model '''
-    model = EfficientNet.from_pretrained('efficientnet-b0')
-    num_classes = 4 
-    model._fc = nn.Sequential(
-        nn.Dropout(0.5),  # Increased dropout to reduce overfitting
-        nn.Linear(model._fc.in_features, num_classes)
-    ) 
-    return model
+        # Run model prediction
+        with torch.no_grad():
+            output = model(image)
+            _, predicted = torch.max(output.data, 1)
 
-def train(model, train_loader, val_loader, num_epochs=15, learning_rate=0.001, patience=10):
-    # Class weights for handling class imbalance
-    class_counts = [179, 12, 640, 448]
-    total_samples = sum(class_counts)
-    weights = [total_samples / count for count in class_counts]
-    weights = torch.tensor(weights, dtype=torch.float).to(DEVICE)
-    criterion = nn.CrossEntropyLoss(weight=weights)
+        # Map prediction to label
+        labels = ['Mild Impairment', 'Moderate Impairment', 'No Impairment', 'Very Mild Impairment']
+        predicted_label = labels[predicted.item()]
 
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    scheduler = CosineAnnealingLR(optimizer, T_max=10)
-    best_val_accuracy = 0.0
-    epochs_without_improvement = 0
-    
-    for epoch in range(num_epochs):
-        model.train()
-        running_loss = 0.0
-        correct = 0
-        total = 0
-        
-        for i, (inputs, labels) in enumerate(train_loader, start=1):
-            inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-            running_loss += loss.item()
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-        
-        train_accuracy = 100 * correct / total
-        train_loss = running_loss / len(train_loader)
-        print(f'Epoch {epoch+1}/{num_epochs}, Train Loss: {train_loss:.6f}, Train Accuracy: {train_accuracy:.2f}%')
-        
-        # Validate the model
-        val_accuracy, val_loss = validate(model, val_loader, criterion)
-        print(f'Validation Loss: {val_loss:.6f}, Validation Accuracy: {val_accuracy:.2f}% | Epochs without improvement: {epochs_without_improvement}/{patience}')
-        
-        scheduler.step()
+        return JSONResponse(content={"prediction": predicted_label})
 
-        # Check for improvement
-        improved = val_accuracy > best_val_accuracy
-        if improved:
-            best_val_accuracy = val_accuracy
-            epochs_without_improvement = 0
-            torch.save(model.state_dict(), 'Models/best_model.pth')
-        else:
-            epochs_without_improvement += 1
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
-        # Early stopping if no improvement for 'patience' epochs
-        if epochs_without_improvement >= patience:
-            print(f'Early stopping at epoch {epoch+1}')
-            break
-
-def validate(model, val_loader, criterion):
-    model.eval()
-    correct = 0
-    total = 0
-    running_loss = 0.0
-    with torch.no_grad(): 
-        for inputs, labels in val_loader:
-            inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            running_loss += loss.item()
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-    accuracy = 100 * correct / total
-    return accuracy, running_loss / len(val_loader)
-
-def test(model, test_loader):
-    model.eval()
-    correct = 0
-    total = 0
-    all_labels = []
-    all_predictions = []
-    all_probs = []
-
-    with torch.no_grad():
-        for inputs, labels in test_loader:
-            inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
-            outputs = model(inputs)
-            probs = torch.softmax(outputs, dim=1)
-
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-            
-            all_labels.extend(labels.cpu().numpy())
-            all_predictions.extend(predicted.cpu().numpy())
-            all_probs.extend(probs.cpu().numpy())
-    
-    accuracy = 100 * correct / total
-    report = classification_report(all_labels, all_predictions, target_names=test_loader.dataset.classes)
-    
-    # Calculate AUC score
-    auc = roc_auc_score(all_labels, np.array(all_probs), multi_class='ovr') if len(np.unique(all_labels)) > 1 else None
-    return accuracy, report, auc
-
-def generate_heatmap(model, image_tensor, target_class):
-    model.eval()
-    layer_gc = LayerGradCam(model, model._blocks[-1])  # Target the last block of EfficientNet
-    
-    # Generate attribution
-    attribution = layer_gc.attribute(image_tensor, target=target_class)
-    
-    # Convert attribution to a NumPy array and display with matplotlib
-    attr_np = attribution.squeeze().cpu().detach().numpy()
-    
-    # Plot the heatmap
-    plt.imshow(attr_np, cmap='hot', interpolation='nearest')
-    plt.colorbar()
-    plt.title(f"LayerGradCam - Target Class: {target_class}")
-    plt.show()
-
-if __name__ == '__main__':
-    main()
+# Start the app using Uvicorn
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8001)

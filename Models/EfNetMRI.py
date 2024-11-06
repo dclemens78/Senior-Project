@@ -1,6 +1,6 @@
 # Danny Clemens
 #
-# EfNetMRI.py.py
+# EfNetMRI.py
 
 ''' A model that classifies brain scans in order to detect Alzheimer's disease. The results will be outputted on the website '''
 
@@ -17,6 +17,7 @@ from sklearn.metrics import classification_report, roc_auc_score
 from captum.attr import LayerGradCam
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
@@ -44,6 +45,17 @@ def main():
     # Generate a heatmap for a single sample (example usage)
     sample_input, sample_target = next(iter(test_loader))
     generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
+    
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "NoImpairment (5).jpg"))
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
+    test_single_image(model, "")
 
 def load_images():
     '''
@@ -125,6 +137,7 @@ def train(model, train_loader, val_loader, num_epochs=10, learning_rate=0.001, p
         total = 0
         
         for i, (inputs, labels) in enumerate(train_loader, start=1):
+            
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -263,6 +276,46 @@ def generate_heatmap(model, image_tensor, target_class):
     plt.colorbar()
     plt.title(f"LayerGradCam - Target Class: {target_class}")
     plt.show()
+    
+    
+    
+def test_single_image(model, image_path):
+    ''' Test the model on a single image and print the prediction and probability. '''
+    
+    # Load the image
+    image = Image.open(image_path).convert("RGB")
+    
+    # Define the transformation (resize, normalize) as done in val_test_transform
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5], std=[0.5])
+    ])
+    
+    # Preprocess the image
+    image_tensor = transform(image).unsqueeze(0).to(DEVICE)  # Add batch dimension
+    
+    # Set the model to evaluation mode and make a prediction
+    model.eval()
+    with torch.no_grad():
+        output = model(image_tensor)
+        probabilities = torch.softmax(output, dim=1).cpu().numpy()[0]  # Convert to probabilities
+        predicted_class = torch.argmax(output, dim=1).item()  # Get predicted class index
+    
+    # Class names based on your dataset (update these as per your classes)
+    class_names = ["No Impairment", "Moderate Impairment", "Mild Impairment", "Very Mild Impairment"]
+    
+    # Print the results
+    print(f"Predicted Class: {class_names[predicted_class]}")
+    print("Class Probabilities:")
+    for i, prob in enumerate(probabilities):
+        print(f"{class_names[i]}: {prob:.2f}")
+    
+    # Optional: Visualize the image with prediction
+    plt.imshow(image)
+    plt.title(f"Predicted: {class_names[predicted_class]}")
+    plt.show()
+    
 
 if __name__ == '__main__':
     main()
