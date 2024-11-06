@@ -122,9 +122,6 @@ article p, article h3 {
 
 
 
-<<<<<<< HEAD
-/* Media Queries for smaller screens */
-=======
 
 /* For large screens */
 @media (max-width: 2000px) {
@@ -152,7 +149,6 @@ article p, article h3 {
 }
 
 /* For medium-sized screens */
->>>>>>> a62f35e087c9d75c15a8265c6baf849245213164
 @media (max-width: 1590px) {
     .text-box {
         width: 90%;
