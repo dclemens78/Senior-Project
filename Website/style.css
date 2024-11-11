@@ -59,6 +59,7 @@ h1{
     filter: blur(2px); /* Apply blur effect */
     z-index: 0; /* Send it to the back */
     overflow: hidden;
+    opacity: 90%;
 
 }
 
