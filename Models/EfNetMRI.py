@@ -18,6 +18,7 @@ from captum.attr import LayerGradCam
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
+from sklearn.metrics import confusion_matrix
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
@@ -46,7 +47,8 @@ def main():
     sample_input, sample_target = next(iter(test_loader))
     generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
     
-    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (9).jpg"))
+    
+    test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (9).jpg")) # No Impairment and Mild
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (16).jpg"))
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "No Impairment", "1 (64).jpg"))
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Moderate Impairment", "9 (2).jpg"))
@@ -58,7 +60,8 @@ def main():
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (2).jpg"))
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (10).jpg"))
     test_single_image(model, os.path.join(ROOT, 'Data', 'Test', "Very Mild Impairment", "1 (13).jpg"))
-
+    
+    
 def load_images():
     '''
     Data Augmentation:
@@ -238,6 +241,9 @@ def test(model, test_loader):
     
     # Calculate AUC score
     auc = roc_auc_score(all_labels, np.array(all_probs), multi_class='ovr') if len(np.unique(all_labels)) > 1 else None
+    
+
+    
     return accuracy, report, auc
 
 def plot_metrics(training_stats):
@@ -304,8 +310,8 @@ def test_single_image(model, image_path):
         probabilities = torch.softmax(output, dim=1).cpu().numpy()[0]  # Convert to probabilities
         predicted_class = torch.argmax(output, dim=1).item()  # Get predicted class index
     
-    # Class names based on your dataset (update these as per your classes)
-    class_names = ["No Impairment", "Moderate Impairment", "Mild Impairment", "Very Mild Impairment"]
+
+    class_names = ["Mild Impairment", "Moderate Impairment", "No Impairment", "Very Mild Impairment"]
     
     # Print the results
     print(f"Predicted Class: {class_names[predicted_class]}")
