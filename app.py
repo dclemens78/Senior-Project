@@ -41,10 +41,11 @@ model.eval()
 
 # Define the image transformations
 transform = transforms.Compose([
-    transforms.Resize([224, 224]),
+    transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    transforms.Normalize(mean=[0.5], std=[0.5])
 ])
+
 
 # Endpoint for image upload and model inference
 @app.post("/predict")
@@ -67,8 +68,9 @@ async def predict(file: UploadFile = File(...)):
             _, predicted = torch.max(output.data, 1)
 
         # Map prediction to label
-        labels = ['No Impairment', 'Moderate Impairment', 'Mild Impairment', 'Very Mild Impairment']
+        labels = {0: "Mild Impairment", 1: "Moderate Impairment", 2: "No Impairment", 3: "Very Mild Impairment"}
         predicted_label = labels[predicted.item()]
+
 
         return JSONResponse(content={"prediction": predicted_label})
 

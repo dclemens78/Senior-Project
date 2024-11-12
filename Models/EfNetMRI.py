@@ -311,7 +311,7 @@ def test_single_image(model, image_path):
         predicted_class = torch.argmax(output, dim=1).item()  # Get predicted class index
     
 
-    class_names = ["Mild Impairment", "Moderate Impairment", "No Impairment", "Very Mild Impairment"]
+    class_names = ["No Impairment", "Moderate Impairment", "Mild Impairment", "Very Mild Impairment"]
     
     # Print the results
     print(f"Predicted Class: {class_names[predicted_class]}")

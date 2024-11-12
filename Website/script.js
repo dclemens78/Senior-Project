@@ -62,8 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("No file selected.");
         }
 
-        // Placeholder for future form/photo submission handling
-        alert('Upload button clicked');
     });
 });
 
