@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                document.getElementById('resultText').innerText = data.prediction || 'No prediction available';
+                document.getElementById('resultText').innerText = data.prediction || 'Upload Failed. Please upload a valid MRI scan';
                 alert('File Uploaded successfully');
                 // Optionally handle the response data here
             })
