@@ -61,6 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert("No file selected.");
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8b126a43070d4d3380d9dcd0e7eef2feb500ad3f
     });
 });
 
