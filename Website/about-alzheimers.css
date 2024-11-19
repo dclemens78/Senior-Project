@@ -27,7 +27,7 @@ body{
 }
 
 .navbar li:hover{
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
 }
 .What-is-alzheimer {
     color: white;
@@ -53,15 +53,16 @@ body{
     background-size: cover; /* Maintain cover size */
     filter: blur(2px); /* Apply blur effect */
     z-index: 0; /* Send it to the back */
-    opacity: 90%;
 }
 
 .What-is-alzheimer h1,p {
     position: relative; /* Ensure text is above the blurred background */
-    z-index: 5; /* Bring text above the background */
-    font-size: 75px;
+    z-index: 1; /* Bring text above the background */
 }
 
+h1,p{
+    font-size: 75px;
+}
 
 .img-fluid {
     max-width: 100%; /* Ensures image doesn't exceed its container */
@@ -143,34 +144,44 @@ article.about img {
 }
 
 article p, article h3 {
-    margin: 20px 10px;
+    margin: 20px 15px;
     line-height: 1.8rem;
     font-size: 20px;
 }
 
-/* The treatment section */
-article.treatments{
-    grid-column: span 3;
+
+article.treatments {
+    grid-column: span 3; /* Assuming it spans across 3 columns on a larger grid */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* Create two equal-width columns */
     gap: 60px;
-    align-items: center;
+    align-items: start; /* Align items to the start to keep them neatly aligned */
+    padding-bottom: 40px;
+    padding-top: 40px;
 }
 
-article.treatments img {
-    width: 100%;
+  /* Ensure the image takes up the full width of its column */
+article.treatments img {  
+    max-width: 100%;
     border-radius: 8px;
+    margin-top: 75px;
+} 
 
+/* Make the second text box span across both columns */
+.second-box {
+    grid-column: span 2; /* This makes the second box span across both columns */
+    grid-row: 2; /* Place the second box in the second row */
+    overflow-y: auto; /* Allow scrolling if content overflows */
 }
-/* Make the last paragraph span across both columns */
-.treatments-text-box p:last-of-type {
-    grid-column: 1 / -1; /* This makes the last paragraph span across both columns */
-    width: 100%; /* Ensure it spans the full width */
-    margin: 0; /* Optional: Remove any default margins */
-    padding: 0; /* Optional: Remove padding if any */
+
+
+@media (max-width: 2000px) {
+    .navbar-nav {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
 }
-
-
 
 @media (max-width: 1024px) {
     .text-box {
@@ -191,6 +202,17 @@ article.treatments img {
         gap: 60px;
         align-items: center;
     }
+    article.treatments{
+        grid-column: span 3;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+        align-items: center;
+    }
+
+    .treatments img{
+        max-width: 100%;
+    }
 
     .accordion {
         flex-direction: column; /* Stack vertically */
@@ -208,6 +230,14 @@ article.treatments img {
     article.about{
         display: block;
         margin: 0 20px;
+    }
+    article.treatments{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+    .treatments img{
+        max-width: 100%;
     }
     .accordion {
         flex-direction: column; /* Stack vertically */
