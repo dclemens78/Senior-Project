@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = 'Uploaded Image';
-                img.style.maxWidth = '720px'; // Make sure the image fits within the container
-                img.style.height = 'auto'; // Maintain aspect ratio
+                img.style.maxWidth = '900px'; // Make sure the image fits within the container
+                img.style.maxHeight = '900px'; // Maintain aspect ratio
 
                 // Clear previous content and add new image
                 imagePreview.innerHTML = '';
@@ -61,12 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert("No file selected.");
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> 8b126a43070d4d3380d9dcd0e7eef2feb500ad3f
     });
 });
-
-
-

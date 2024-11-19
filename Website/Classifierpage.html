@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -45,22 +45,23 @@
         </div>
 
 
-        <form id="uploadForm" enctype="multipart/form-data">
-          <div class="filedrop">
-              <input type="file" id="drop" name="filepath" accept="image/jpeg, image/png" required>
-              <label for="drop" class="file-path-button">Choose File</label> <!-- Styled button -->
-              <input type="button" value="Upload" id="uploadbutton" class="px-2"> <!-- Updated ID -->
-          </div>
-      </form>
+        <div class="main-container">
+          <form id="uploadForm" enctype="multipart/form-data">
+              <div class="filedrop mx-auto">
+                  <input type="file" id="drop" name="filepath" accept="image/jpeg, image/png" required>
+                  <label for="drop" class="file-path-button">Choose File</label> <!-- Styled button -->
+                  <input type="button" value="Upload" id="uploadbutton" class="px-2"> <!-- Updated ID -->
+              </div>
+          </form>
       
-      <div class="upload-container">
-        <div class="grid-container">
-          <div class="container">
-            <div id="imagePreview" class="uploaded-image"></div>
-              <h2 class="px-4">Results: <span><p class="d-inline" id="resultText"></p></span></h2>
-              
+          <div class="upload-container mx-auto">
+              <div class="grid-container">
+                  <div class="container">
+                      <div id="imagePreview" class="uploaded-image"></div>
+                      <h2 class="px-4">Results: <span><p class="d-inline" id="resultText"></p></span></h2>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
       
       

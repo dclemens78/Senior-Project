@@ -27,7 +27,7 @@ body{
 }
 
 .navbar li:hover{
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
 }
 .What-is-alzheimer {
     color: white;
@@ -53,15 +53,16 @@ body{
     background-size: cover; /* Maintain cover size */
     filter: blur(2px); /* Apply blur effect */
     z-index: 0; /* Send it to the back */
-    opacity: 90%;
 }
 
 .What-is-alzheimer h1,p {
     position: relative; /* Ensure text is above the blurred background */
-    z-index: 5; /* Bring text above the background */
-    font-size: 75px;
+    z-index: 1; /* Bring text above the background */
 }
 
+h1,p{
+    font-size: 75px;
+}
 
 .img-fluid {
     max-width: 100%; /* Ensures image doesn't exceed its container */
@@ -148,29 +149,13 @@ article p, article h3 {
     font-size: 20px;
 }
 
-/* The treatment section */
-article.treatments{
-    grid-column: span 3;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
-    align-items: center;
+@media (max-width: 2000px) {
+    .navbar-nav {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
 }
-
-article.treatments img {
-    width: 100%;
-    border-radius: 8px;
-
-}
-/* Make the last paragraph span across both columns */
-.treatments-text-box p:last-of-type {
-    grid-column: 1 / -1; /* This makes the last paragraph span across both columns */
-    width: 100%; /* Ensure it spans the full width */
-    margin: 0; /* Optional: Remove any default margins */
-    padding: 0; /* Optional: Remove padding if any */
-}
-
-
 
 @media (max-width: 1024px) {
     .text-box {
