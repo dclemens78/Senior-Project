@@ -209,7 +209,7 @@ article p, article h3 {
     .navbar .navbar-link{
         text-wrap: nowrap;
     }
-    .about{
+    article.about{
         display: block;
         margin: 0 20px;
         grid-template-columns: 1fr; /* Single column layout */
@@ -225,9 +225,10 @@ article p, article h3 {
     .text-box p {
         font-size: clamp(0.5vw, 0.8vw, 10px);
     }
-    .about{
+    article.about{
         display: block;
         margin: 0 20px;
         grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
     }
 }
