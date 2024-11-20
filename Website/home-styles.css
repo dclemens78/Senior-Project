@@ -209,6 +209,11 @@ article p, article h3 {
     .navbar .navbar-link{
         text-wrap: nowrap;
     }
+    article.about{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+    }
 }
 
 /* For very small screens (like small smartphones) */
@@ -219,5 +224,11 @@ article p, article h3 {
 
     .text-box p {
         font-size: clamp(0.5vw, 0.8vw, 10px);
+    }
+    article.about{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
     }
 }
