@@ -19,10 +19,24 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from sklearn.metrics import confusion_matrix
+import argparse
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Command line arguments
+parser = argparse.ArgumentParser(description="Classify Alzheimer's disease via MRI scans of the brain")
+parser.add_argument("-save, -s", action='store_true', help='Save the current model path')
+parser.add_argument("--o", action='store_true', help='Overwrite the best model path')
+parser.add_argument("-debug", action='store_true', help='Debug the program using pdb.set_trace()')
+parser.add_argument("-e", "-epochs", type=int, default=10, help='Set the number of epochs for training')
+parser.add_argument("-b", "-batch", type=int, default=64, help='Set the batch size for training and testing')
+
+
+
+
+
 
 def main():
     train_loader, val_loader, test_loader = load_images()
