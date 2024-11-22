@@ -30,6 +30,7 @@ body{
 h1{
     font-size: 75px;
 }
+
 .header {
     color: white;
     margin-top: 70px;
@@ -61,13 +62,6 @@ h1{
     z-index: 1; /* Bring text above the background */
 }
 
-
-
-
-
-
-
-
 /* OUR PERSONAL CARDS */
 .grid-container{
     display: grid;
@@ -78,6 +72,16 @@ h1{
     margin: 0 auto;
 }
 
+.person{
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.person:hover {
+    cursor: pointer;
+    background-color: #f0f0f0; /* Optional hover effect */
+}
 .text-box h4{
     font-size: 20px;
     font-weight: 500;
@@ -97,6 +101,51 @@ h1{
 }
 
 
+
+/* FOR PERSONAL BIO PAGES */
+.bio{
+    margin: 0 auto;
+    margin-top: 72px;
+    max-width: 1300px;
+    background-color: lightgray;
+}
+.bio h1{
+    font-size: 46px;
+    font-weight: 200;
+}
+
+.bio h4{
+    font-size: 28px;
+    font-weight: 100;
+}
+
+.bio-photo{
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+.grid-container-bio{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+article.bio-photo{
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+
+article.bio-photo img {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+}
 
 
 /* For large screens */
