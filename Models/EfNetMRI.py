@@ -21,6 +21,7 @@ from PIL import Image
 from sklearn.metrics import confusion_matrix
 import argparse
 import pdb
+import time
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
@@ -34,21 +35,42 @@ parser.add_argument("-o", "--overwrite", action='store_true', help='Overwrite th
 parser.add_argument("-debug", action='store_true', help='Debug the program using pdb.set_trace()')
 parser.add_argument("-e", "--epochs", type=int, default=10, help='Set the number of epochs for training')
 parser.add_argument("-b", "--batch", type=int, default=64, help='Set the batch size for training and testing')
+parser.add_argument("--plot", action='store_true', help="Plot useful metrics to display relevant model information")
 
 
 
 def main(args):
+    ''' Driver method '''
+    
+    # Gather and manipulate desired data (Brain MRI Images)
     train_loader, val_loader, test_loader = load_images(args)
 
-    model = build_model()
+    # Load the pretrained efficientnet-b0 convolutional neural network
+    model = build_model() 
     model = model.to(DEVICE)
 
-    training_stats = train(model, train_loader, val_loader, args.epochs)
 
-    plot_metrics(training_stats)
+    print("Starting training...")
+    train_start_time = time.time()
+    
+    # Train the model
+    training_stats = train(model, train_loader, val_loader, args.epochs)
+    train_end_time = time.time()
+    train_time = train_end_time - train_start_time
+    print(f"Training completed in {train_time:.2f} seconds ({train_time/60:.2f} minutes).")
+
+    # show useful model data
+    if args.plot: plot_metrics(training_stats)
 
     # Test the model
+    print("Starting testing...")
+    test_start_time = time.time()
     test_accuracy, test_report, test_auc = test(model, test_loader)
+    test_end_time = time.time()
+    test_time = test_end_time - test_start_time
+    print(f"Testing completed in {test_time:.2f} seconds ({test_time/60:.2f} minutes).")
+    
+    # Print the final test accuracy, classification report, and auc score
     print(f"Final Test Accuracy: {test_accuracy:.2f}%")
     print("Classification Report:\n", test_report)
     if test_auc:
@@ -59,18 +81,18 @@ def main(args):
     generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
     
     
-    if args.debug:
-        pdb.set_trace()
+    if args.debug: pdb.set_trace()
     
-    if args.save:
-        torch.save(model.state_dict(), 'Models/Model-Paths/best_model.pth')
+    if args.save: torch.save(model.state_dict(), 'Models/Model-Paths/best_model.pth')
         
-    if args.overwrite:
-        torch.save(model.state_dict(), 'Models/Model-Paths/best_efnet_model.pth')
+    if args.overwrite: torch.save(model.state_dict(), 'Models/Model-Paths/best_efnet_model.pth')
         
     
     
 def load_images(args):
+    ''' a method that manipulates and stores all image data as needed '''
+    
+    
     '''
     Data Augmentation:
     1). Efficient Net expects 224x224 images, so we resize every image.

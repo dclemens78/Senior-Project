@@ -30,12 +30,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+ROOT = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(DEVICE)
 
 # Load trained model
 model = build_model()
-model.load_state_dict(torch.load(os.path.join('Models', 'Model-Paths', 'best_efnet__model.pth'), map_location=DEVICE))
+model.load_state_dict(torch.load(os.path.join(ROOT, 'Models', 'Model-Paths', 'best_efnet_model.pth'), map_location=DEVICE))
 model = model.to(DEVICE)
 model.eval()
 
