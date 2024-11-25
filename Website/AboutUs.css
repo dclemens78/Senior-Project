@@ -107,11 +107,16 @@ h1{
     margin: 0 auto;
     margin-top: 72px;
     max-width: 1300px;
-    background-color: lightgray;
 }
 .bio h1{
     font-size: 46px;
     font-weight: 200;
+    text-align: center;
+}
+
+#about-me{
+    text-align: center;
+    font-size: 46px;
 }
 
 .bio h4{
@@ -139,8 +144,8 @@ article.bio-photo{
 }
 
 article.bio-photo img {
-    width: 350px;
-    height: 350px;
+    width: 500px;
+    height: 500px;
     object-fit: cover;
     border-radius: 8px;
     border: 1px solid black;
