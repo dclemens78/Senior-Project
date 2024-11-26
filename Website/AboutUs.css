@@ -139,6 +139,8 @@ h1{
 article.bio-photo{
     grid-column: span 3;
     display: grid;
+    gap: 40px;
+    padding-left: 40px;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
 }
@@ -182,6 +184,22 @@ article.bio-photo img {
     .navbar .navbar-link{
         text-wrap: nowrap;
     }
+    article.bio-photo img {
+        width: 450px;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid black;
+        box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    }
+    
+    article.bio-photo{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
+        padding-left: 0;
+    }
 }
 
 
@@ -193,6 +211,22 @@ article.bio-photo img {
     .person{
         margin: 0 auto;
     }
+    article.bio-photo img {
+        width: 450px;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid black;
+        box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    }
+
+    article.bio-photo{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
+        padding-left: 0;
+    }
 }
 
 /* For very small screens (like small smartphones) */
@@ -203,5 +237,21 @@ article.bio-photo img {
     .person {
         margin: 0 auto;
         text-align: center; /* Center-align text content */
+    }
+
+    article.bio-photo{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
+        padding-left: 0;
+    }
+    article.bio-photo img {
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid black;
+        box-shadow: 0 0 20px 0px rgb(89, 1, 92);
     }
 }
