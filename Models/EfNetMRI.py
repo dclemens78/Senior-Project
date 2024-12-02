@@ -26,7 +26,9 @@ import time
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f'Device: {DEVICE}')
+CLASSES = 4 # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+
+print(f'Device Selected for Training: {DEVICE}')
 
 # Command line arguments
 parser = argparse.ArgumentParser(description="Classify Alzheimer's disease via MRI scans of the brain")
@@ -115,11 +117,13 @@ def load_images(args):
         transforms.Normalize(mean=[0.5], std=[0.5])
     ])
     
+    # Shuffle the images to prevent patterns caused by the order of images
     full_train_dataset = ImageFolder(root=TRAIN)
     dataset_size = len(full_train_dataset)
     indices = np.arange(dataset_size)
     np.random.shuffle(indices)
     
+    # use 80% of the training images for training, 20% for validation
     train_size = int(0.8 * dataset_size)
     train_indices, val_indices = indices[:train_size], indices[train_size:]
     
@@ -141,12 +145,12 @@ def load_images(args):
 def build_model():
     ''' Construct the pretrained Efficientnet-B0 model '''
     
-    model = EfficientNet.from_pretrained('efficientnet-b0')
-    num_classes = 4  # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+    # Load the pretrained efficentnetb0 cnn
+    model = EfficientNet.from_pretrained('efficientnet-b0') 
     
     model._fc = nn.Sequential(
-        nn.Dropout(0.5),  # Dropout to reduce overfitting
-        nn.Linear(model._fc.in_features, num_classes)
+        nn.Dropout(0.5),  # Dropout layer to reduce overfitting
+        nn.Linear(model._fc.in_features, CLASSES)
     )
     
     return model
@@ -159,7 +163,7 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = CosineAnnealingLR(optimizer, T_max=10)  # Scheduler to help the loss and accuracy properly converge
 
-    # Store training statistics
+    # training statistics
     training_stats = {
         "train_loss": [],
         "val_loss": [],
@@ -167,6 +171,7 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
         "val_accuracy": []
     }
 
+    # early stopping criteria
     best_val_accuracy = 0.0
     best_val_loss = float('inf')
     epochs_without_improvement = 0
@@ -217,13 +222,12 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
             best_val_loss = val_loss
             improved = True
 
-        # Save the best model if there's an improvement
         if improved:
             epochs_without_improvement = 0
         else:
             epochs_without_improvement += 1
 
-        # Early stopping if no improvement for 'patience' epochs
+        # stop if epochs without improvement exceeds the patience
         if epochs_without_improvement >= patience:
             print(f'Early stopping at epoch {epoch+1}')
             break
@@ -234,20 +238,26 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
 def validate(model, val_loader, criterion):
     ''' Test (Validate) the Model on a Subset of Training Data that Seeks to Mimic Testing Data '''
     
-    model.eval()
+    model.eval() # set model to evaluate
     correct = 0
     total = 0
     running_loss = 0.0
+    
+    # Test each image 
     with torch.no_grad(): 
         for inputs, labels in val_loader:
+            
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             running_loss += loss.item()
+            
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
+            
     accuracy = 100 * correct / total
+    
     return accuracy, running_loss / len(val_loader)
 
 
@@ -275,13 +285,12 @@ def test(model, test_loader):
             all_predictions.extend(predicted.cpu().numpy())
             all_probs.extend(probs.cpu().numpy())
     
+    # calculate accuracy and generate the classification report
     accuracy = 100 * correct / total
     report = classification_report(all_labels, all_predictions, target_names=test_loader.dataset.classes)
     
     # Calculate AUC score
-    auc = roc_auc_score(all_labels, np.array(all_probs), multi_class='ovr') if len(np.unique(all_labels)) > 1 else None
-    
-
+    auc = roc_auc_score(all_labels, np.array(all_probs), multi_class='ovr')
     
     return accuracy, report, auc
 
@@ -327,7 +336,7 @@ def generate_heatmap(model, image_tensor, target_class):
     # Plot the heatmap
     plt.imshow(attr_np, cmap='hot', interpolation='nearest')
     plt.colorbar()
-    plt.title(f"LayerGradCam - Target Class: {target_class}")
+    plt.title(f"Target Class: {target_class}")
     plt.show()
     
      
