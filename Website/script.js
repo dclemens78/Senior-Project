@@ -1,3 +1,5 @@
+// Adam Boulos 
+
 document.addEventListener('DOMContentLoaded', function() {
     let selectedFile; // Initialize selectedFile here
 
