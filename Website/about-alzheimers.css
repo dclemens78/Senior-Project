@@ -2,7 +2,6 @@
 
 body{
     font-family: Georgia, 'Times New Roman', Times, serif;
-    overflow-x: hidden;
     background-color: #EDEDF4;
 }
 
@@ -18,7 +17,6 @@ body{
 .navbar-brand{
     font-size: 24px;
     font-weight: 500;
-    margin-right: 100px;
 }
 
 .navbar ul{
@@ -144,9 +142,43 @@ article.about img {
 }
 
 article p, article h3 {
-    margin: 20px 10px;
+    margin: 20px 15px;
     line-height: 1.8rem;
     font-size: 20px;
+}
+
+
+article.treatments {
+    grid-column: span 3; /* Assuming it spans across 3 columns on a larger grid */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Create two equal-width columns */
+    gap: 60px;
+    align-items: start; /* Align items to the start to keep them neatly aligned */
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+  /* Ensure the image takes up the full width of its column */
+article.treatments img {  
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 75px;
+} 
+
+/* Make the second text box span across both columns */
+.second-box {
+    grid-column: span 2; /* This makes the second box span across both columns */
+    grid-row: 2; /* Place the second box in the second row */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+
+@media (max-width: 2000px) {
+    .navbar-nav {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -168,6 +200,17 @@ article p, article h3 {
         gap: 60px;
         align-items: center;
     }
+    article.treatments{
+        grid-column: span 3;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+        align-items: center;
+    }
+
+    .treatments img{
+        max-width: 100%;
+    }
 
     .accordion {
         flex-direction: column; /* Stack vertically */
@@ -185,6 +228,14 @@ article p, article h3 {
     article.about{
         display: block;
         margin: 0 20px;
+    }
+    article.treatments{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+    .treatments img{
+        max-width: 100%;
     }
     .accordion {
         flex-direction: column; /* Stack vertically */

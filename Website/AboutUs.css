@@ -1,0 +1,257 @@
+/* About us CSS */
+
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #EDEDF4;
+}
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    background-color: #EDEDF4;
+}
+.navbar-brand{
+    font-size: 24px;
+    font-weight: 500;
+    margin-right: 72px;
+}
+
+.navbar ul{
+    font-weight: 450;
+    font-size: 20px;
+}
+
+.navbar li:hover{
+    border-bottom: 1px solid black;
+}
+
+h1{
+    font-size: 75px;
+}
+
+.header {
+    color: white;
+    margin-top: 70px;
+    position: relative;
+    padding: 35px;
+    text-align: center;
+    height: 300px; /* Set a fixed height for the banner */
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    display: flex; /* Use flexbox for better alignment */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
+}
+
+.background {
+    position: absolute; /* Position it absolutely within .header */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(images/Banner.png);
+    background-size: cover; /* Maintain cover size */
+    filter: blur(2px); /* Apply blur effect */
+    z-index: 0; /* Send it to the back */
+
+}
+
+.header h1 {
+    position: relative; /* Ensure text is above the blurred background */
+    z-index: 1; /* Bring text above the background */
+}
+
+/* OUR PERSONAL CARDS */
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 50px;
+    max-width: 1200px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.person{
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.person:hover {
+    cursor: pointer;
+    background-color: #f0f0f0; /* Optional hover effect */
+}
+.text-box h4{
+    font-size: 20px;
+    font-weight: 500;
+}
+.text-box p{
+    font-size: 18px;
+}
+
+.person img{
+    margin-top: 85px;
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 65%;
+    border: 1px solid black;
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+}
+
+
+
+/* FOR PERSONAL BIO PAGES */
+.bio{
+    margin: 0 auto;
+    margin-top: 72px;
+    max-width: 1300px;
+}
+.bio h1{
+    font-size: 46px;
+    font-weight: 200;
+    text-align: center;
+}
+
+#about-me{
+    text-align: center;
+    font-size: 46px;
+}
+
+.bio h4{
+    font-size: 28px;
+    font-weight: 100;
+}
+
+.bio-photo{
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+.grid-container-bio{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+article.bio-photo{
+    grid-column: span 3;
+    display: grid;
+    gap: 40px;
+    padding-left: 40px;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+
+article.bio-photo img {
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+}
+
+
+/* For large screens */
+@media (max-width: 2000px) {
+    .navbar-nav {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
+
+}
+
+/* For medium-sized screens */
+@media (max-width: 1590px) {
+    .navbar .navbar-link{
+        text-wrap: nowrap;
+    }
+}
+
+/* For tablet-sized screens */
+@media (max-width: 1150px) {
+    .grid-container{
+        grid-template-columns: repeat(2,1fr);
+    }
+    .person{
+        margin: 0 auto;
+    }
+
+    .navbar .navbar-link{
+        text-wrap: nowrap;
+    }
+    article.bio-photo img {
+        width: 450px;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid black;
+        box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    }
+    
+    article.bio-photo{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
+        padding-left: 0;
+    }
+}
+
+
+/* For mobile screens */
+@media (max-width: 750px) {
+    .grid-container{
+        grid-template-columns: 1fr;
+    }
+    .person{
+        margin: 0 auto;
+    }
+    article.bio-photo img {
+        width: 450px;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid black;
+        box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    }
+
+    article.bio-photo{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
+        padding-left: 0;
+    }
+}
+
+/* For very small screens (like small smartphones) */
+@media (max-width: 480px) {
+    .grid-container{
+        grid-template-columns: 1fr;
+    }
+    .person {
+        margin: 0 auto;
+        text-align: center; /* Center-align text content */
+    }
+
+    article.bio-photo{
+        display: block;
+        margin: 0 20px;
+        grid-template-columns: 1fr; /* Single column layout */
+        text-align: center;
+        padding-left: 0;
+    }
+    article.bio-photo img {
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid black;
+        box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+    }
+}

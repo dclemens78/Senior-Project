@@ -18,7 +18,6 @@ body{
 .navbar-brand{
     font-size: 24px;
     font-weight: 500;
-    margin-right: 100px;
 }
 
 .navbar ul{
@@ -68,26 +67,31 @@ h1{
 }
 
 
+.main-container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
 
 .filedrop{
     display: flex;
-    background-color: rgba(0, 0, 0, 0.1);;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.1);
     border: 1px solid #000;
     border-radius: 6px;
-    width: 75%;
+    width: 75%; 
     padding: 10px;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    position: absolute;
-    top: 57%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
+
+
 
 
 .filedrop label{
     font-size: 20px;
     padding: 10px;
+    gap: 50px;
     color: black;
 }
 
@@ -119,6 +123,7 @@ input[type="file"] {
     background-color: transparent;
     border: 1px dashed black;
     border-radius: 5px;
+    padding: 10px;
     cursor: pointer; /* Pointer on hover */
     transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
 }
@@ -139,11 +144,11 @@ input[type="file"] {
     border-radius: 6px;
     width: 75%;
     padding: 10px;
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    flex-wrap: wrap;
     display: none; /* Adjust based on visibility logic */
+    overflow: hidden; /* Prevent overflow */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .grid-container{
@@ -163,6 +168,16 @@ input[type="file"] {
 p{
     font-size: 25px;
 }
+
+#imagePreview img {
+    width: 100%; /* Image will scale to the container's width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 1000px; /* Maximum width to prevent the image from becoming too large */
+    min-width: 350px; /* Minimum width to prevent shrinking below 128px */
+    display: block;
+    margin: 0 auto; /* Center the image */
+}
+
 
 
 
@@ -196,24 +211,54 @@ p{
     .header p {
         font-size: 16px; /* Adjust font size for smaller screens */
     }
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium-sized screens */
+    }
+    #imagePreview img {
+        max-width: 800px; /* Resize for smaller screens */
+    }
+    .container p {
+        font-size: 20px; /* Adjust font size for mobile */
+        word-wrap: break-word; /* Ensure text wraps properly */
+        white-space: normal; /* Allow text to wrap */
+        overflow-wrap: break-word; /* Ensure long words break onto the next line */
+    }
+    
 }
 
 
 /* For mobile screens */
 @media (max-width: 750px) {
-    .header {
-        height: auto; /* Allow height to adjust for smaller screens */
-        padding: 20px; /* Adjust padding for smaller screens */
+    .grid-container {
+        grid-template-columns: 1fr; /* 1 column for mobile screens */
     }
 
-    .header h1 {
-        font-size: 40px; /* Adjust font size for smaller screens */
+    .container {
+        display: flex; /* Make the container a flexbox */
+        flex-direction: column; /* Stack the items vertically */
+        width: 100%; /* Ensure the container takes up the full width */
     }
 
-    .header p {
-        font-size: 16px; /* Adjust font size for smaller screens */
+    /* Ensure images fit within the container */
+    #imagePreview img {
+        max-width: 800px; /* Resize for smaller screens */
+    }
+
+    /* Prevent text overflow and ensure wrapping */
+    .container p {
+        font-size: 20px; /* Adjust font size for mobile */
+        word-wrap: break-word; /* Ensure text wraps properly */
+        white-space: normal; /* Allow text to wrap */
+        overflow-wrap: break-word; /* Ensure long words break onto the next line */
+    }
+
+    /* Optional: Make sure the container doesn't exceed screen width */
+    .upload-container {
+        width: 100%; /* Ensure the container fits within the screen */
+        padding: 10px;
     }
 }
+
 
 /* For very small screens (like small smartphones) */
 @media (max-width: 480px) {
@@ -228,5 +273,8 @@ p{
 
     .header p {
         font-size: 12px; /* Adjust font size for smaller screens */
+    }
+    #imagePreview img {
+        max-width: 800px; /* Resize for smaller screens */
     }
 }
