@@ -223,6 +223,7 @@ p{
         white-space: normal; /* Allow text to wrap */
         overflow-wrap: break-word; /* Ensure long words break onto the next line */
     }
+    
 }
 
 
