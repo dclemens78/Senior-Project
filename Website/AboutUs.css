@@ -23,8 +23,30 @@ body{
     font-size: 20px;
 }
 
-.navbar li:hover{
-    border-bottom: 1px solid black;
+.nav-item a {
+    position: relative;
+}
+
+.nav-item a::after {
+    content: ''; 
+    width: 0; 
+    height: 1px; 
+    background-color: black;
+    position: absolute;
+    bottom: -4px;
+    left: 10px; 
+    transition: width 0.4s ease; /* Smooth transition for the line */
+}
+
+/* final width the line should be at */
+.nav-item a:hover::after,
+.nav-item a.active::after {
+    width: 90%; 
+}
+
+.nav-item:hover {
+    transform: scale(1.05); 
+    transition: transform 0.3s ease;
 }
 
 h1{
