@@ -102,7 +102,6 @@ h1{
 
 .person:hover {
     cursor: pointer;
-    background-color: #f0f0f0; /* Optional hover effect */
 }
 .text-box h4{
     font-size: 20px;
@@ -174,6 +173,10 @@ article.bio-photo img {
     border-radius: 8px;
     border: 1px solid black;
     box-shadow: 0 0 20px 0px rgb(89, 1, 92);
+}
+.person:hover{
+    transform: scale(1.05);
+    transition: ease 0.5s;
 }
 
 

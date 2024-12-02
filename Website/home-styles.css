@@ -95,7 +95,7 @@ body{
 }
 
 .card{
-    transition: trasnform 0.2s;
+    transition: ease 0.5s;
 }
 
 .card-link{
