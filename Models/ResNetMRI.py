@@ -16,6 +16,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 from sklearn.metrics import classification_report, roc_auc_score
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 
 # Set the global paths and device that the model will be trained on
@@ -33,8 +34,13 @@ def main():
     model = build_model()
     model = model.to(DEVICE)
 
+    print("Starting training...")
+    train_start_time = time.time()
     # Train the model and gather statistics that the user can display
     training_stats = train(model, train_loader, val_loader, num_epochs=10)
+    train_end_time = time.time()
+    train_time = train_end_time - train_start_time
+    print(f"Training completed in {train_time:.2f} seconds ({train_time/60:.2f} minutes).")
     
     # Plot the training/validation accuracy vs epoch and loss graphs
     plot_metrics(training_stats)

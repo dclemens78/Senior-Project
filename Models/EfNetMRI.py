@@ -22,22 +22,26 @@ from sklearn.metrics import confusion_matrix
 import argparse
 import pdb
 import time
+from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 CLASSES = 4 # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+print(torch.cuda.get_device_name(0))
 
 print(f'Device Selected for Training: {DEVICE}')
 
 # Command line arguments
 parser = argparse.ArgumentParser(description="Classify Alzheimer's disease via MRI scans of the brain")
-parser.add_argument("--save, -s", action='store_true', help='Save the current model path')
-parser.add_argument("-o", "--overwrite", action='store_true', help='Overwrite the best model path')
+parser.add_argument("-s", "--save", action="store_true", help='Save the current model')
 parser.add_argument("-debug", action='store_true', help='Debug the program using pdb.set_trace()')
 parser.add_argument("-e", "--epochs", type=int, default=10, help='Set the number of epochs for training')
 parser.add_argument("-b", "--batch", type=int, default=64, help='Set the batch size for training and testing')
+parser.add_argument("-p", "--patience", type=int, default=5, help="Set the patience for early stopping in training")
 parser.add_argument("--plot", action='store_true', help="Plot useful metrics to display relevant model information")
+
+
 
 
 
@@ -77,19 +81,30 @@ def main(args):
     print("Classification Report:\n", test_report)
     if test_auc:
         print(f"AUC Score: {test_auc:.2f}")
-    
- 
-    sample_input, sample_target = next(iter(test_loader))
-    generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
+
     
     
     if args.debug: pdb.set_trace()
     
-    if args.save: torch.save(model.state_dict(), 'Models/Model-Paths/best_model.pth')
+    if args.save:
         
-    if args.overwrite: torch.save(model.state_dict(), 'Models/Model-Paths/best_efnet_model.pth')
-        
-    
+        while True:
+            choice = str(input("Would you like to overwrite the best model path? (Y/N): ")).strip().lower()
+            
+            if choice in {'y', 'yes', 'n', 'no'}:
+                
+                if choice in {'n', 'no'}:
+                    current_time = time.strftime("%Y%m%d-%H%M%S") #unique tag (current time) to prevent duplicate file names
+                    path = f'Models/Model-Paths/efnet_model{current_time}.pth'
+                else:
+                    path = 'Models/Model-Paths/best_efnet_model.pth'
+                
+                print(f'Model Successfully Saved as {path}')
+                torch.save(model.state_dict(), path)  
+                break
+            else:
+                print("Error Saving, Please Enter a Valid Response\n")
+
     
 def load_images(args):
     ''' a method that manipulates and stores all image data as needed '''
@@ -105,10 +120,13 @@ def load_images(args):
     '''
     
     train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
-        transforms.RandomRotation(degrees=15),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5], std=[0.5])
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomVerticalFlip(),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.RandomRotation(degrees=15),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.5], std=[0.5])
     ])
     
     val_test_transform = transforms.Compose([
@@ -156,9 +174,11 @@ def build_model():
     return model
 
 
-def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, patience=10):
+def train(model, train_loader, val_loader, num_epochs):
     ''' Train the Alzheimer's Model to Accurately Predict Which Class an Image Belongs to '''
     
+    learning_rate = 0.001
+    patience = 5
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = CosineAnnealingLR(optimizer, T_max=10)  # Scheduler to help the loss and accuracy properly converge
