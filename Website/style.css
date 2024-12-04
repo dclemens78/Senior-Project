@@ -200,7 +200,42 @@ p{
     margin: 0 auto; /* Center the image */
 }
 
+.sample{
+    max-width: 1000px;
+    min-width: 350px;
+    margin-top: 40px;
+    margin: 0 auto;
+    width: 100%;
+}
 
+.sample-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 5px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.sample-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.sample-image-container img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.sample-image-container p {
+    margin: 0;
+    font-size: 16px;
+}
 
 
 /* For large screens */
@@ -279,6 +314,9 @@ p{
         width: 100%; /* Ensure the container fits within the screen */
         padding: 10px;
     }
+    .sample-images {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 
@@ -298,5 +336,8 @@ p{
     }
     #imagePreview img {
         max-width: 800px; /* Resize for smaller screens */
+    }
+    .sample-images {
+        grid-template-columns: 1fr;
     }
 }
