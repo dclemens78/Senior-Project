@@ -22,20 +22,26 @@ from sklearn.metrics import confusion_matrix
 import argparse
 import pdb
 import time
+from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f'Device: {DEVICE}')
+CLASSES = 4 # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+print(torch.cuda.get_device_name(0))
+
+print(f'Device Selected for Training: {DEVICE}')
 
 # Command line arguments
 parser = argparse.ArgumentParser(description="Classify Alzheimer's disease via MRI scans of the brain")
-parser.add_argument("--save, -s", action='store_true', help='Save the current model path')
-parser.add_argument("-o", "--overwrite", action='store_true', help='Overwrite the best model path')
+parser.add_argument("-s", "--save", action="store_true", help='Save the current model')
 parser.add_argument("-debug", action='store_true', help='Debug the program using pdb.set_trace()')
 parser.add_argument("-e", "--epochs", type=int, default=10, help='Set the number of epochs for training')
 parser.add_argument("-b", "--batch", type=int, default=64, help='Set the batch size for training and testing')
+parser.add_argument("-p", "--patience", type=int, default=5, help="Set the patience for early stopping in training")
 parser.add_argument("--plot", action='store_true', help="Plot useful metrics to display relevant model information")
+
+
 
 
 
@@ -75,19 +81,30 @@ def main(args):
     print("Classification Report:\n", test_report)
     if test_auc:
         print(f"AUC Score: {test_auc:.2f}")
-    
- 
-    sample_input, sample_target = next(iter(test_loader))
-    generate_heatmap(model, sample_input[0].unsqueeze(0).to(DEVICE), sample_target[0].item())
+
     
     
     if args.debug: pdb.set_trace()
     
-    if args.save: torch.save(model.state_dict(), 'Models/Model-Paths/best_model.pth')
+    if args.save:
         
-    if args.overwrite: torch.save(model.state_dict(), 'Models/Model-Paths/best_efnet_model.pth')
-        
-    
+        while True:
+            choice = str(input("Would you like to overwrite the best model path? (Y/N): ")).strip().lower()
+            
+            if choice in {'y', 'yes', 'n', 'no'}:
+                
+                if choice in {'n', 'no'}:
+                    current_time = time.strftime("%Y%m%d-%H%M%S") #unique tag (current time) to prevent duplicate file names
+                    path = f'Models/Model-Paths/efnet_model{current_time}.pth'
+                else:
+                    path = 'Models/Model-Paths/best_efnet_model.pth'
+                
+                print(f'Model Successfully Saved as {path}')
+                torch.save(model.state_dict(), path)  
+                break
+            else:
+                print("Error Saving, Please Enter a Valid Response\n")
+
     
 def load_images(args):
     ''' a method that manipulates and stores all image data as needed '''
@@ -103,10 +120,13 @@ def load_images(args):
     '''
     
     train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
-        transforms.RandomRotation(degrees=15),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5], std=[0.5])
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomVerticalFlip(),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.RandomRotation(degrees=15),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.5], std=[0.5])
     ])
     
     val_test_transform = transforms.Compose([
@@ -115,11 +135,13 @@ def load_images(args):
         transforms.Normalize(mean=[0.5], std=[0.5])
     ])
     
+    # Shuffle the images to prevent patterns caused by the order of images
     full_train_dataset = ImageFolder(root=TRAIN)
     dataset_size = len(full_train_dataset)
     indices = np.arange(dataset_size)
     np.random.shuffle(indices)
     
+    # use 80% of the training images for training, 20% for validation
     train_size = int(0.8 * dataset_size)
     train_indices, val_indices = indices[:train_size], indices[train_size:]
     
@@ -141,25 +163,27 @@ def load_images(args):
 def build_model():
     ''' Construct the pretrained Efficientnet-B0 model '''
     
-    model = EfficientNet.from_pretrained('efficientnet-b0')
-    num_classes = 4  # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+    # Load the pretrained efficentnetb0 cnn
+    model = EfficientNet.from_pretrained('efficientnet-b0') 
     
     model._fc = nn.Sequential(
-        nn.Dropout(0.5),  # Dropout to reduce overfitting
-        nn.Linear(model._fc.in_features, num_classes)
+        nn.Dropout(0.5),  # Dropout layer to reduce overfitting
+        nn.Linear(model._fc.in_features, CLASSES)
     )
     
     return model
 
 
-def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, patience=10):
+def train(model, train_loader, val_loader, num_epochs):
     ''' Train the Alzheimer's Model to Accurately Predict Which Class an Image Belongs to '''
     
+    learning_rate = 0.001
+    patience = 5
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = CosineAnnealingLR(optimizer, T_max=10)  # Scheduler to help the loss and accuracy properly converge
 
-    # Store training statistics
+    # training statistics
     training_stats = {
         "train_loss": [],
         "val_loss": [],
@@ -167,6 +191,7 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
         "val_accuracy": []
     }
 
+    # early stopping criteria
     best_val_accuracy = 0.0
     best_val_loss = float('inf')
     epochs_without_improvement = 0
@@ -217,13 +242,12 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
             best_val_loss = val_loss
             improved = True
 
-        # Save the best model if there's an improvement
         if improved:
             epochs_without_improvement = 0
         else:
             epochs_without_improvement += 1
 
-        # Early stopping if no improvement for 'patience' epochs
+        # stop if epochs without improvement exceeds the patience
         if epochs_without_improvement >= patience:
             print(f'Early stopping at epoch {epoch+1}')
             break
@@ -234,20 +258,26 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate=0.001, pati
 def validate(model, val_loader, criterion):
     ''' Test (Validate) the Model on a Subset of Training Data that Seeks to Mimic Testing Data '''
     
-    model.eval()
+    model.eval() # set model to evaluate
     correct = 0
     total = 0
     running_loss = 0.0
+    
+    # Test each image 
     with torch.no_grad(): 
         for inputs, labels in val_loader:
+            
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             running_loss += loss.item()
+            
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
+            
     accuracy = 100 * correct / total
+    
     return accuracy, running_loss / len(val_loader)
 
 
@@ -275,13 +305,12 @@ def test(model, test_loader):
             all_predictions.extend(predicted.cpu().numpy())
             all_probs.extend(probs.cpu().numpy())
     
+    # calculate accuracy and generate the classification report
     accuracy = 100 * correct / total
     report = classification_report(all_labels, all_predictions, target_names=test_loader.dataset.classes)
     
     # Calculate AUC score
-    auc = roc_auc_score(all_labels, np.array(all_probs), multi_class='ovr') if len(np.unique(all_labels)) > 1 else None
-    
-
+    auc = roc_auc_score(all_labels, np.array(all_probs), multi_class='ovr')
     
     return accuracy, report, auc
 
@@ -327,7 +356,7 @@ def generate_heatmap(model, image_tensor, target_class):
     # Plot the heatmap
     plt.imshow(attr_np, cmap='hot', interpolation='nearest')
     plt.colorbar()
-    plt.title(f"LayerGradCam - Target Class: {target_class}")
+    plt.title(f"Target Class: {target_class}")
     plt.show()
     
      
