@@ -26,9 +26,16 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 CLASSES = 4 # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
-print(torch.cuda.get_device_name(0))
+if torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
+    print(f"CUDA is available: {torch.cuda.get_device_name(0)}")
+else:
+    DEVICE = torch.device("cpu")
+    print("CUDA is not available. Running on CPU.")
+
+print(f"Device selected: {DEVICE}")
 
 print(f'Device Selected for Training: {DEVICE}')
 
