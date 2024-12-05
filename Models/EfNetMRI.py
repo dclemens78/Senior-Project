@@ -109,16 +109,7 @@ def main(args):
 def load_images(args):
     ''' a method that manipulates and stores all image data as needed '''
     
-    
-    '''
-    Data Augmentation:
-    1). Efficient Net expects 224x224 images, so we resize every image.
-    2). Parameters provided by PyTorch documentation (mean, std, scale, etc.).
-    3). RandomResizedCrop (typical for MRI images).
-    4). Random Rotation (create a more robust image to challenge the model).
-    5). We finish by converting every image to a tensor.
-    '''
-    
+    # Transformations
     train_transform = transforms.Compose([
     transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
     transforms.RandomHorizontalFlip(),
