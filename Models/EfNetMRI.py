@@ -18,16 +18,18 @@ from captum.attr import LayerGradCam
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-from sklearn.metrics import confusion_matrix
 import argparse
 import pdb
 import time
 from PIL import Image
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
 
-CLASSES = 4 # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+# Global Variables
+ROOT = os.path.dirname(os.path.abspath(__file__)) # Root directory
+TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test') # train/test directories
+CLASSES = 4 # No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
+
+# Run program on GPU
 if torch.cuda.is_available():
     DEVICE = torch.device("cuda")
     print(f"CUDA is available: {torch.cuda.get_device_name(0)}")
@@ -35,27 +37,23 @@ else:
     DEVICE = torch.device("cpu")
     print("CUDA is not available. Running on CPU.")
 
-print(f"Device selected: {DEVICE}")
-
 print(f'Device Selected for Training: {DEVICE}')
 
 # Command line arguments
 parser = argparse.ArgumentParser(description="Classify Alzheimer's disease via MRI scans of the brain")
-parser.add_argument("-s", "--save", action="store_true", help='Save the current model')
-parser.add_argument("-debug", action='store_true', help='Debug the program using pdb.set_trace()')
 parser.add_argument("-e", "--epochs", type=int, default=10, help='Set the number of epochs for training')
 parser.add_argument("-b", "--batch", type=int, default=64, help='Set the batch size for training and testing')
 parser.add_argument("-p", "--patience", type=int, default=5, help="Set the patience for early stopping in training")
 parser.add_argument("--plot", action='store_true', help="Plot useful metrics to display relevant model information")
-
-
+parser.add_argument("-s", "--save", action="store_true", help='Save the current model')
+parser.add_argument("-debug", action='store_true', help='Debug the program using pdb.set_trace()')
 
 
 
 def main(args):
     ''' Driver method '''
     
-    # Gather and manipulate desired data (Brain MRI Images)
+    # Gather and manipulate desired data (Brain MRI Images for training, validation, and testing)
     train_loader, val_loader, test_loader = load_images(args)
 
     # Load the pretrained efficientnet-b0 convolutional neural network
@@ -64,37 +62,33 @@ def main(args):
 
 
     print("Starting training...")
-    train_start_time = time.time()
+    train_start_time = time.time() # Measure how long the model takes to train
     
     # Train the model
     training_stats = train(model, train_loader, val_loader, args.epochs)
+    
     train_end_time = time.time()
     train_time = train_end_time - train_start_time
     print(f"Training completed in {train_time:.2f} seconds ({train_time/60:.2f} minutes).")
 
-    # show useful model data
-    if args.plot: plot_metrics(training_stats)
+    # show useful training data
+    if args.plot: plot_metrics(training_stats, args.epochs)
 
     # Test the model
     print("Starting testing...")
-    test_start_time = time.time()
     test_accuracy, test_report, test_auc = test(model, test_loader)
-    test_end_time = time.time()
-    test_time = test_end_time - test_start_time
-    print(f"Testing completed in {test_time:.2f} seconds ({test_time/60:.2f} minutes).")
     
     # Print the final test accuracy, classification report, and auc score
     print(f"Final Test Accuracy: {test_accuracy:.2f}%")
     print("Classification Report:\n", test_report)
-    if test_auc:
-        print(f"AUC Score: {test_auc:.2f}")
+    print(f"AUC Score: {test_auc:.2f}")
 
+    if args.debug: pdb.set_trace() # debugger
     
-    
-    if args.debug: pdb.set_trace()
-    
+    # saving the model
     if args.save:
         
+        # overwrite current best model path if user desires
         while True:
             choice = str(input("Would you like to overwrite the best model path? (Y/N): ")).strip().lower()
             
@@ -127,6 +121,7 @@ def load_images(args):
     transforms.Normalize(mean=[0.5], std=[0.5])
     ])
     
+    # Use same transformations for validation and testing
     val_test_transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
@@ -149,9 +144,11 @@ def load_images(args):
     train_dataset.dataset.transform = train_transform
     val_dataset.dataset.transform = val_test_transform
     
+    # Set up the train and validation loaders, shuffling train_loader an extra time
     train_loader = DataLoader(train_dataset, batch_size=args.batch, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=args.batch, shuffle=False)
     
+    # Load the testing data
     test_dataset = ImageFolder(root=TEST, transform=val_test_transform)
     test_loader = DataLoader(test_dataset, batch_size=args.batch, shuffle=False)
 
@@ -173,15 +170,16 @@ def build_model():
 
 
 def train(model, train_loader, val_loader, num_epochs):
-    ''' Train the Alzheimer's Model to Accurately Predict Which Class an Image Belongs to '''
+    ''' Train the Model to Accurately Predict Which Class an Image Belongs to '''
     
+    # Set up hyperparameters for training
     learning_rate = 0.001
     patience = 5
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = CosineAnnealingLR(optimizer, T_max=10)  # Scheduler to help the loss and accuracy properly converge
 
-    # training statistics
+    # training statistics to measure model performance each epoch
     training_stats = {
         "train_loss": [],
         "val_loss": [],
@@ -194,6 +192,7 @@ def train(model, train_loader, val_loader, num_epochs):
     best_val_loss = float('inf')
     epochs_without_improvement = 0
     
+    # Main training loop, runs until early stopping is met or desired number of epochs is reached
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -209,10 +208,11 @@ def train(model, train_loader, val_loader, num_epochs):
             loss.backward()
             optimizer.step()
             running_loss += loss.item()
-            _, predicted = torch.max(outputs.data, 1)
+            maxvals, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
         
+        # measure training performance
         train_accuracy = 100 * correct / total
         train_loss = running_loss / len(train_loader)
         print(f'Epoch {epoch+1}/{num_epochs}, Train Loss: {train_loss:.6f}, Train Accuracy: {train_accuracy:.2f}%')
@@ -313,10 +313,9 @@ def test(model, test_loader):
     return accuracy, report, auc
 
 
-def plot_metrics(training_stats):
+def plot_metrics(training_stats, epochs):
     ''' a method used to plot useful graphs to display model performance '''
     
-    epochs = range(1, len(training_stats["train_loss"]) + 1)
 
     # Plot Loss vs Epochs
     plt.figure()
@@ -336,25 +335,6 @@ def plot_metrics(training_stats):
     plt.ylabel("Accuracy (%)")
     plt.title("Accuracy vs Epochs")
     plt.legend()
-    plt.show()
-
-
-def generate_heatmap(model, image_tensor, target_class):
-    ''' Generates a heatmap to show what areas of an image the model focuses on the most '''
-    
-    model.eval()
-    layer_gc = LayerGradCam(model, model._blocks[-1])  # Target the last block of EfficientNet
-    
-    # Generate attribution
-    attribution = layer_gc.attribute(image_tensor, target=target_class)
-    
-    # Convert attribution to a NumPy array and display with matplotlib
-    attr_np = attribution.squeeze().cpu().detach().numpy()
-    
-    # Plot the heatmap
-    plt.imshow(attr_np, cmap='hot', interpolation='nearest')
-    plt.colorbar()
-    plt.title(f"Target Class: {target_class}")
     plt.show()
     
      
