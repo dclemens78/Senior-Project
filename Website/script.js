@@ -1,5 +1,4 @@
-// Adam Boulos 
-
+// Code for handling image upload and preview
 document.addEventListener('DOMContentLoaded', function() {
     let selectedFile; // Initialize selectedFile here
 
