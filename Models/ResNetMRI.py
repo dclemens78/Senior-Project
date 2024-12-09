@@ -2,7 +2,7 @@
 #
 # ResNetMRI.py
 
-''' A pretrained ResNet50 CNN that seeks to classify Alzheimer's disease via MRI scans of the brain '''
+''' A pretrained ResNet50 CNN to compete against our EfficientNet model '''
 
 import os
 from torchvision import models
@@ -23,6 +23,7 @@ import time
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TRAIN, TEST = os.path.join(ROOT, 'Data', 'train'), os.path.join(ROOT, 'Data', 'test')
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+CLASSES = 4
 
 def main():
     ''' Driver function of the program '''
@@ -36,8 +37,9 @@ def main():
 
     print("Starting training...")
     train_start_time = time.time()
-    # Train the model and gather statistics that the user can display
+
     training_stats = train(model, train_loader, val_loader, num_epochs=10)
+    
     train_end_time = time.time()
     train_time = train_end_time - train_start_time
     print(f"Training completed in {train_time:.2f} seconds ({train_time/60:.2f} minutes).")
@@ -56,17 +58,7 @@ def main():
 def load_images():
     ''' Load the training and testing images into appropriate arrays and apply transformations as needed '''
     
-    
-    '''
-    Data Augmentation:
-    1). ResNet expects 224x224 images, so we resize every image.
-    2). Parameters provided by PyTorch documentation (mean, std, scale, etc.).
-    3). RandomResizedCrop (typical for MRI images).
-    4). Random Rotation (create a more robust image to challenge the model).
-    5). We finish by converting every image to a tensor.
-    6). Note: We also use the same transformations for testing and validation
-    '''
-    
+    # Image transformations
     train_transform = transforms.Compose([
         transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(1.0, 1.0)),
         transforms.RandomRotation(degrees=15),
@@ -87,12 +79,16 @@ def load_images():
     
     train_size = int(0.8 * dataset_size)
     train_indices, val_indices = indices[:train_size], indices[train_size:]
+    
     train_dataset = torch.utils.data.Subset(full_train_dataset, train_indices)
     val_dataset = torch.utils.data.Subset(full_train_dataset, val_indices)
+    
     train_dataset.dataset.transform = train_transform
     val_dataset.dataset.transform = val_test_transform
+    
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+    
     test_dataset = ImageFolder(root=TEST, transform=val_test_transform)
     test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
@@ -103,12 +99,10 @@ def build_model():
     
    
     model = models.resnet50(weights='ResNet50_Weights.DEFAULT')
-    num_classes = 4  # We have four classes: No Impairment, Moderate Impairment, Mild Impairment, Very Mild Impairment
-    
     
     model.fc = nn.Sequential(
         nn.Dropout(0.5),  # Dropout to reduce overfitting
-        nn.Linear(model.fc.in_features, num_classes)
+        nn.Linear(model.fc.in_features, CLASSES)
     )
     
     return model

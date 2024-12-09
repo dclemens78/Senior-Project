@@ -2,7 +2,6 @@
 # app.py
 
 ''' A model that classifies brain scans in order to detect Alzheimer's disease. The results will be outputted on the website '''
-import sys
 
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
@@ -14,7 +13,6 @@ import io
 from PIL import Image
 from torchvision import transforms
 import io
-from Models.EfNetMRI import build_model
 import os
 import uvicorn
 

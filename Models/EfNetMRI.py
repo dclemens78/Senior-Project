@@ -337,39 +337,6 @@ def plot_metrics(training_stats, epochs):
     plt.legend()
     plt.show()
     
-     
-def test_single_image(model, image_path):
-    ''' Test the model on a single image and print the prediction and probability. '''
-    
-    # Load the image
-    image = Image.open(image_path).convert("RGB")
-    
-    # Define the transformation (resize, normalize) as done in val_test_transform
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5], std=[0.5])
-    ])
-    
-    # Preprocess the image
-    image_tensor = transform(image).unsqueeze(0).to(DEVICE)  # Add batch dimension
-    
-    # Set the model to evaluation mode and make a prediction
-    model.eval()
-    with torch.no_grad():
-        output = model(image_tensor)
-        probabilities = torch.softmax(output, dim=1).cpu().numpy()[0]  # Convert to probabilities
-        predicted_class = torch.argmax(output, dim=1).item()  # Get predicted class index
-    
-
-    class_names = ["No Impairment", "Moderate Impairment", "Mild Impairment", "Very Mild Impairment"]
-    
-    # Print the results
-    print(f"Predicted Class: {class_names[predicted_class]}%")
-    print("Class Probabilities:")
-    for i, prob in enumerate(probabilities):
-        print(f"Class: {class_names[i]}: {prob:.2f}%")
-    
 
 if __name__ == '__main__':
     main(parser.parse_args())
