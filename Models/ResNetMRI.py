@@ -146,7 +146,7 @@ def train(model, train_loader, val_loader, num_epochs=10, learning_rate=0.001, p
             optimizer.step()
             
             running_loss += loss.item()
-            _, predicted = torch.max(outputs.data, 1)
+            maxvals, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
         
@@ -206,7 +206,7 @@ def validate(model, val_loader, criterion):
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             running_loss += loss.item()
-            _, predicted = torch.max(outputs.data, 1)
+            maxvals, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     accuracy = 100 * correct / total
@@ -228,7 +228,7 @@ def test(model, test_loader):
             outputs = model(inputs)
             probs = torch.softmax(outputs, dim=1)
 
-            _, predicted = torch.max(outputs.data, 1)
+            maxvals, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
             

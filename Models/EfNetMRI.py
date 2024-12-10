@@ -270,7 +270,7 @@ def validate(model, val_loader, criterion):
             loss = criterion(outputs, labels)
             running_loss += loss.item()
             
-            _, predicted = torch.max(outputs.data, 1)
+            maxvals, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
             
@@ -295,7 +295,7 @@ def test(model, test_loader):
             outputs = model(inputs)
             probs = torch.softmax(outputs, dim=1)
 
-            _, predicted = torch.max(outputs.data, 1)
+            maxvals, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
             
